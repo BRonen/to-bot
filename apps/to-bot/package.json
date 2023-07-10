@@ -7,7 +7,8 @@
     "build": "tsc",
     "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"dotenv -e ../../.env ts-node src/index.ts\"",
     "start": "node dist/index.js",
-    "lint": "eslint \"**/*.ts\" --quiet --fix --cache"
+    "lint": "eslint \"**/*.ts\" --quiet --fix --cache",
+    "deploy:commands": "tsc ./src/deployCommands.ts"
   },
   "license": "MIT",
   "dependencies": {
