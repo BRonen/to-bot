@@ -1,16 +1,16 @@
-import type { Knex } from 'knex';
+import type { Knex } from "knex";
 
 const config: { [key: string]: Knex.Config } = {
   development: {
     debug: true,
-    client: 'better-sqlite3',
+    client: "better-sqlite3",
     connection: {
-      filename: './dev.sqlite3',
+      filename: "./dev.sqlite3",
     },
   },
 
   production: {
-    client: 'postgresql',
+    client: "postgresql",
     connection: {
       database: process.env.API_DATABASE,
       user: process.env.API_DATABASE_USER,

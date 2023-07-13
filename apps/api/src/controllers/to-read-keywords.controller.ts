@@ -1,4 +1,4 @@
-import { Knex } from 'knex';
+import { Knex } from "knex";
 
 interface ToReadKeywordDto {
   tag: string;
@@ -27,10 +27,10 @@ type Controller = {
   ) => Promise<number>;
 };
 const controller: Controller = {
-  index: async (db) => await db('keywords').select('*'),
-  create: async (db, { tag }) => await db('keywords').insert({ tag }),
+  index: async (db) => await db("keywords").select("*"),
+  create: async (db, { tag }) => await db("keywords").insert({ tag }),
   update: async (db, { tag }, id) =>
-    await db('keywords').update({ tag }).where('id', id),
+    await db("keywords").update({ tag }).where("id", id),
 };
 
 export default controller;
