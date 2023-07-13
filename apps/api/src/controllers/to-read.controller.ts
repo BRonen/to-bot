@@ -1,4 +1,4 @@
-import {
+import type {
   CreateToReadDto,
   ToReadDto,
   ToReadRepository,
@@ -24,8 +24,8 @@ const controller: Controller = {
 
   show: async (repository, id) => repository.find(id),
 
-  store: async (repository, createToReadDto) =>
-    repository.create(createToReadDto),
+  store: async (repository, { url, name, tags }) =>
+    repository.create({ url, name, tags }),
 
   update: async (repository, { url, name }, id) =>
     repository.update({ url, name }, id),

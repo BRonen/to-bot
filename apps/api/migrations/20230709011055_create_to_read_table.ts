@@ -19,12 +19,13 @@ export const up: KnexMigration = async (knex) =>
       table.integer("keyword_id").index().references("id").inTable("keywords");
     })
     .createTable("keywords", (table) => {
+      table.timestamps(true, true);
       table.increments("id");
       table.string("tag", 255).notNullable();
     });
 
 export const down: KnexMigration = (knex) =>
   knex.schema
-    .dropTableIfExists("to_read")
     .dropTableIfExists("to_read_keywords")
+    .dropTableIfExists("to_read")
     .dropTableIfExists("keywords");

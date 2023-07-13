@@ -1,36 +1,32 @@
-import { Knex } from "knex";
+import type {
+  CreateToReadKeywordDto,
+  ToReadKeywordDto,
+  ToReadKeywordsRepository,
+  UpdateToReadKeywordDto,
+} from "../repositories/to-read-keywords/to-read-keywords.repository";
 
-interface ToReadKeywordDto {
-  tag: string;
-  created_at: number;
-  updated_at: number;
-}
-
-interface CreateToReadKeywordDto {
-  tag: string;
-}
-
-interface UpdateToReadKeywordDto {
-  tag: string;
-}
-
-type Controller = {
-  index: (db: Knex) => Promise<ToReadKeywordDto[]>;
-  create: (
-    db: Knex,
+interface Controller {
+  index: (repository: ToReadKeywordsRepository) => Promise<ToReadKeywordDto[]>;
+  show: (
+    repository: ToReadKeywordsRepository,
+    id: string
+  ) => Promise<ToReadKeywordDto | undefined>;
+  store: (
+    repository: ToReadKeywordsRepository,
     createToReadDto: CreateToReadKeywordDto
   ) => Promise<ToReadKeywordDto>;
   update: (
-    db: Knex,
+    repository: ToReadKeywordsRepository,
     updateToReadDto: UpdateToReadKeywordDto,
     id: string
   ) => Promise<number>;
-};
+}
 const controller: Controller = {
-  index: async (db) => await db("keywords").select("*"),
-  create: async (db, { tag }) => await db("keywords").insert({ tag }),
-  update: async (db, { tag }, id) =>
-    await db("keywords").update({ tag }).where("id", id),
+  index: async (repository) => await repository.findAll(),
+  show: async (repository, id) => await repository.find(id),
+  store: async (repository, { tag }) => await repository.create({ tag }),
+  update: async (repository, { tag }, id) =>
+    await repository.update({ tag }, id),
 };
 
 export default controller;

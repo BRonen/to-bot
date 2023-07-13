@@ -62,7 +62,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
   find: async (toReadId) => {
     const results = await db.raw<ToReadRawResult[]>(
       `
-            select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.created_at
+            select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
             from to_read as tr
             left join keywords as k
             on k.id in
@@ -81,7 +81,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
 
   findAll: async () => {
     const results = await db.raw<ToReadRawResult[]>(`
-            select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.created_at
+            select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
             from to_read as tr
             left join keywords as k
             on k.id in

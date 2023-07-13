@@ -4,6 +4,7 @@ import toreadController from "../controllers/to-read.controller";
 import toreadKeywordsController from "../controllers/to-read-keywords.controller";
 
 import createToReadRepository from "../repositories/to-read/knex.repository";
+import createToReadKeywordsRepository from "../repositories/to-read-keywords/knex.repository";
 
 const router = new Router({
   prefix: "/to-read",
@@ -11,15 +12,31 @@ const router = new Router({
 
 router
   .get("/keywords", async (ctx) => {
-    const records = await toreadKeywordsController.index(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.db);
+
+    const records = await toreadKeywordsController.index(repository);
+
+    ctx.body = records;
+  })
+  .get("/keywords/:id", async (ctx) => {
+    const repository = createToReadKeywordsRepository(ctx.db);
+
+    const records = await toreadKeywordsController.show(
+      repository,
+      ctx.params.id
+    );
+
     ctx.body = records;
   })
   .post("/keywords", async (ctx) => {
+    const repository = createToReadKeywordsRepository(ctx.db);
+
     try {
-      const records = await toreadKeywordsController.create(
-        ctx.db,
+      const records = await toreadKeywordsController.store(
+        repository,
         ctx.request.body
       );
+
       ctx.body = records;
     } catch (e: any) {
       console.error(e);
@@ -33,12 +50,15 @@ router
     }
   })
   .put("/keywords/:id", async (ctx) => {
+    const repository = createToReadKeywordsRepository(ctx.db);
+
     try {
       const records = await toreadKeywordsController.update(
-        ctx.db,
+        repository,
         ctx.request.body,
         ctx.params.id
       );
+
       ctx.body = records;
     } catch (e: any) {
       console.error(e);
@@ -62,7 +82,7 @@ router
     if (!record) {
       ctx.body = "User not found";
       ctx.status = 404;
-      
+
       return;
     }
 
