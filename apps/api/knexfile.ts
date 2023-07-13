@@ -2,6 +2,7 @@ import type { Knex } from 'knex';
 
 const config: { [key: string]: Knex.Config } = {
   development: {
+    debug: true,
     client: 'better-sqlite3',
     connection: {
       filename: './dev.sqlite3',
