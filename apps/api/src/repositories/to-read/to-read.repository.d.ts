@@ -1,5 +1,3 @@
-import { Knex } from "knex";
-
 export type ToReadDto = {
   id: number;
   url: string;
