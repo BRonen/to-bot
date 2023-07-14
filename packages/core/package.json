@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts\" --quiet --cache",
-    "migrate": "knex migrate:latest",
-    "migrate:rollback": "knex migrate:rollback"
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback"
   },
   "dependencies": {
     "better-sqlite3": "^8.4.0",

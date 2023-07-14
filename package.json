@@ -7,7 +7,9 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "discord:dev": "turbo run dev --filter=discord",
-    "api:dev": "turbo run dev --filter=api"
+    "api:dev": "turbo run dev --filter=api",
+    "db:migrate": "turbo run db:migrate --filter=core",
+    "db:rollback": "turbo run db:rollback --filter=core"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
