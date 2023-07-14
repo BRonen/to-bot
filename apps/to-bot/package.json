@@ -7,10 +7,12 @@
     "build": "tsc",
     "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"dotenv -e ../../.env ts-node src/index.ts\"",
     "start": "node dist/index.js",
-    "lint": "eslint \"**/*.ts\" --quiet --cache"
+    "lint": "eslint \"**/*.ts\" --quiet --cache",
+    "deploy:commands": "tsc ./src/deployCommands.ts"
   },
   "license": "MIT",
   "dependencies": {
+    "discord-api-types": "^0.37.47",
     "discord.js": "^14.11.0",
     "nodemon": "^3.0.0",
     "ts-node": "^10.9.1"
