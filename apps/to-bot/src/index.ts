@@ -2,7 +2,8 @@ import { Client, Collection, Events, GatewayIntentBits, Options, REST } from 'di
 import * as fs from "node:fs"
 import * as path from "node:path";
 
-if(!process.env.DISCORD_TOKEN) throw new Error('Invalid token value on environment');
+if (!process.env.DISCORD_TOKEN)
+  throw new Error("Invalid token value on environment");
 
 interface Maple extends Client {
   commands?: Collection<string, any>
@@ -44,7 +45,7 @@ client.on(Events.InteractionCreate, interaction => {
 
 // will receive a Task and will create a reminder to the user sending a notification
 
-
-client.login(process.env.DISCORD_TOKEN)
-  .then(() => console.log('running'))
+client
+  .login(process.env.DISCORD_TOKEN)
+  .then(() => console.log("running"))
   .catch(console.error);

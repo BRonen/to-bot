@@ -1,0 +1,25 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint \"**/*.ts\" --quiet --cache",
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback"
+  },
+  "dependencies": {
+    "better-sqlite3": "^8.4.0",
+    "knex": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.12",
+    "dotenv-cli": "^7.2.1",
+    "eslint-config-custom": "workspace:*",
+    "ts-node": "^10.9.1",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.3"
+  }
+}
