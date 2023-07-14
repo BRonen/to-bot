@@ -6,7 +6,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "discord:dev": "turbo run dev --filter=discord",
+    "discord:dev": "turbo run dev --filter=discord-client",
     "api:dev": "turbo run dev --filter=api",
     "db:migrate": "turbo run db:migrate --filter=core",
     "db:rollback": "turbo run db:rollback --filter=core"
