@@ -2,7 +2,7 @@ import Koa from "koa";
 import bodyParser from "@koa/bodyparser";
 
 import knex from "knex";
-import knexConfig from "../knexfile";
+import knexConfig from "core/knexfile";
 
 import routes from "./routes";
 

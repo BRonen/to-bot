@@ -18,6 +18,7 @@
     "@types/node": "^17.0.12",
     "dotenv-cli": "^7.2.1",
     "eslint-config-custom": "workspace:*",
+    "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
   }

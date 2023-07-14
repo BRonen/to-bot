@@ -17,8 +17,7 @@
     "better-sqlite3": "^8.4.0",
     "knex": "^2.5.0",
     "koa": "^2.14.2",
-    "nodemon": "^3.0.0",
-    "ts-node": "^10.9.1"
+    "nodemon": "^3.0.0"
   },
   "devDependencies": {
     "@types/koa-bodyparser": "^4.3.10",
@@ -27,6 +26,7 @@
     "core": "workspace:*",
     "dotenv-cli": "^7.2.1",
     "eslint-config-custom": "workspace:*",
+    "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
   }

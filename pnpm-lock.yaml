@@ -42,7 +42,6 @@ importers:
       knex: 2.5.0_better-sqlite3@8.4.0
       koa: 2.14.2
       nodemon: 3.0.0
-      ts-node: 10.9.1_cin3sed6ohfsopbmt6orxeb4o4
     devDependencies:
       '@types/koa-bodyparser': 4.3.10
       '@types/koa__router': 12.0.0
@@ -50,6 +49,7 @@ importers:
       core: link:../../packages/core
       dotenv-cli: 7.2.1
       eslint-config-custom: link:../../packages/eslint-config-custom
+      ts-node: 10.9.1_cin3sed6ohfsopbmt6orxeb4o4
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
@@ -83,6 +83,7 @@ importers:
       dotenv-cli: ^7.2.1
       eslint-config-custom: workspace:*
       knex: ^2.5.0
+      ts-node: ^10.9.1
       tsconfig: workspace:*
       typescript: ^4.5.3
     dependencies:
@@ -92,6 +93,7 @@ importers:
       '@types/node': 17.0.45
       dotenv-cli: 7.2.1
       eslint-config-custom: link:../eslint-config-custom
+      ts-node: 10.9.1_cin3sed6ohfsopbmt6orxeb4o4
       tsconfig: link:../tsconfig
       typescript: 4.9.5
 
@@ -2952,7 +2954,6 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: false
 
   /ts-node/10.9.1_t7dmilwzctzfywb3oy4dmby4b4:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
