@@ -7,7 +7,7 @@ import type {
 const createRepository = (db: Knex): ToReadKeywordsRepository => ({
   find: async (keywordId) =>
     await db.raw<ToReadKeywordDto | undefined>(
-      `select k.id, k.tag, k.created_at, k.updated_at from keywords as k where id = :keyword_id`,
+      "select k.id, k.tag, k.created_at, k.updated_at from keywords as k where id = :keyword_id",
       {
         keyword_id: keywordId,
       }
@@ -15,7 +15,7 @@ const createRepository = (db: Knex): ToReadKeywordsRepository => ({
 
   findAll: async () =>
     await db.raw<ToReadKeywordDto[]>(
-      `select k.id, k.tag, k.created_at, k.updated_at from keywords as k`
+      "select k.id, k.tag, k.created_at, k.updated_at from keywords as k"
     ),
 
   create: async (createToReadKeywordDto) =>
