@@ -3,7 +3,7 @@ import type {
   ToReadDto,
   ToReadRepository,
   UpdateToReadDto,
-} from "../repositories/to-read/to-read.repository";
+} from "core/repositories/to-read/to-read.repository";
 
 interface Controller {
   index(db: ToReadRepository): Promise<ToReadDto[]>;
