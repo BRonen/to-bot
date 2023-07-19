@@ -79,16 +79,36 @@ const createRepository = (db: Knex): ToReadRepository => ({
     return parseToReadTags(results);
   },
 
-  findAll: async () => {
-    const results = await db.raw<ToReadRawResult[]>(`
-            select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
-            from to_read as tr
-            left join keywords as k
-            on k.id in
-                (select keyword_id from to_read_keywords as trk where tr.id = trk.to_read_id)
-            and tr.id in
-                (select to_read_id from to_read_keywords as trk)
-        `);
+  findAll: async (params) => { // TODO: remove duplicated code
+    const query = params.tags ? `
+      select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
+      from to_read as tr
+      left join keywords as k
+      on k.id in
+        (select keyword_id from to_read_keywords as trk where tr.id = trk.to_read_id)
+      and tr.id in
+        (select to_read_id from to_read_keywords as trk)
+      where
+        k.tag in (:tags)
+      order by :order_by
+      limit :limit
+      offset :offset
+    ` : `
+      select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
+      from to_read as tr
+      left join keywords as k
+      on k.id in
+        (select keyword_id from to_read_keywords as trk where tr.id = trk.to_read_id)
+      and tr.id in
+        (select to_read_id from to_read_keywords as trk)
+      order by :order_by
+      limit :limit
+      offset :offset
+    `
+
+    const results = await db.raw<ToReadRawResult[]>(
+      query, params
+    );
 
     return parseToReadsTags(results);
   },

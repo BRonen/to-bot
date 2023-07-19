@@ -69,9 +69,13 @@ router
 
 router
   .get("/", async (ctx) => {
+    const { page, per_page, order_by, tags } = ctx.query;
     const repository = createToReadRepository(ctx.db);
 
-    const records = await toreadController.index(repository);
+    const records = await toreadController.index(
+      repository,
+      { page, per_page, order_by, tags },
+    );
     ctx.body = records;
   })
   .get("/:id", async (ctx) => {
