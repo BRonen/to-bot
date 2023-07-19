@@ -6,10 +6,10 @@ import type {
 } from "core/repositories/to-read/to-read.repository";
 
 type ToReadFilters = {
-  page: string | string[] | undefined,
-  per_page: string | string[] | undefined,
-  order_by: string | string[] | undefined,
-  tags: string | string[] | undefined,
+  page: string | string[] | undefined;
+  per_page: string | string[] | undefined;
+  order_by: string | string[] | undefined;
+  tags: string | string[] | undefined;
 };
 
 interface Controller {
@@ -26,13 +26,15 @@ interface Controller {
   ): Promise<number>;
   delete(db: ToReadRepository, id: string): Promise<void>;
 }
-const controller: Controller = { // TODO: refactor the parsing of query parameters and default values
-  index: async (repository, {order_by, page, per_page, tags}) => repository.findAll({
-    offset: page? Number(per_page) * (Number(page) - 1) : 0,
-    limit: per_page? Number(per_page) : 15,
-    tags: tags? String(tags) : undefined,
-    order_by: String(order_by) || 'id',
-  }),
+const controller: Controller = {
+  // TODO: refactor the parsing of query parameters and default values
+  index: async (repository, { order_by, page, per_page, tags }) =>
+    repository.findAll({
+      offset: page ? Number(per_page) * (Number(page) - 1) : 0,
+      limit: per_page ? Number(per_page) : 15,
+      tags: tags ? String(tags) : undefined,
+      order_by: String(order_by) || "id",
+    }),
 
   show: async (repository, id) => repository.find(id),
 

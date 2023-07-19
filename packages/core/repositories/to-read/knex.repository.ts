@@ -79,8 +79,10 @@ const createRepository = (db: Knex): ToReadRepository => ({
     return parseToReadTags(results);
   },
 
-  findAll: async (params) => { // TODO: remove duplicated code
-    const query = params.tags ? `
+  findAll: async (params) => {
+    // TODO: remove duplicated code
+    const query = params.tags
+      ? `
       select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
       from to_read as tr
       left join keywords as k
@@ -93,7 +95,8 @@ const createRepository = (db: Knex): ToReadRepository => ({
       order by :order_by
       limit :limit
       offset :offset
-    ` : `
+    `
+      : `
       select tr.id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
       from to_read as tr
       left join keywords as k
@@ -104,11 +107,9 @@ const createRepository = (db: Knex): ToReadRepository => ({
       order by :order_by
       limit :limit
       offset :offset
-    `
+    `;
 
-    const results = await db.raw<ToReadRawResult[]>(
-      query, params
-    );
+    const results = await db.raw<ToReadRawResult[]>(query, params);
 
     return parseToReadsTags(results);
   },

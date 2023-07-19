@@ -1,8 +1,8 @@
 export type ToReadSearchFilters = {
-  limit: number,
-  offset: number,
-  order_by: string,
-  tags?: string,
+  limit: number;
+  offset: number;
+  order_by: string;
+  tags?: string;
 };
 
 export type ToReadDto = {
