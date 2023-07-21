@@ -10,7 +10,7 @@ if (!process.env.GUILD_ID)
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-const commands = [];
+const commands: any[] = [];
 // Grab all the command files from the commands directory you created earlier
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
