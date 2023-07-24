@@ -4,16 +4,15 @@ import {
   Events,
   GatewayIntentBits,
   Options,
-  REST,
 } from "discord.js";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import { loadCommandHandlers } from "./commands/loadCommandHandlers";
+import { CommandHandler } from "./commands/Command";
 
 if (!process.env.DISCORD_TOKEN)
   throw new Error("Invalid token value on environment");
 
 interface Maple extends Client {
-  commands?: Collection<string, any>;
+  commands?: Collection<string, CommandHandler>;
 }
 
 const client: Maple = new Client({
@@ -22,37 +21,23 @@ const client: Maple = new Client({
   partials: [],
 });
 
-client.once(Events.ClientReady, (c) => {
+loadCommandHandlers().then((commandHandlers) => {
+  client.commands = commandHandlers;
+});
+
+client.on(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-client.commands = new Collection();
-
-const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs
-  .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".ts"));
-
-for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  // const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
-  // if ('data' in command && 'execute' in command) {
-  //   client.commands.set(command.data.name, command);
-  // } else {
-  //   console.log(
-  //     `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-  //   );
-  // }
-}
-
 client.on(Events.InteractionCreate, (interaction) => {
-  console.log(interaction);
-});
+  if (!client.commands) return;
 
-// will receive a Task and will create a reminder to the user sending a notification
+  if (!interaction.isCommand()) return;
+
+  client.commands.get(interaction.commandName)?.execute(interaction);
+});
 
 client
   .login(process.env.DISCORD_TOKEN)
-  .then(() => console.log("running"))
+  .then(() => console.log("Started running..."))
   .catch(console.error);
