@@ -118,7 +118,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
     await db.transaction(async (trx) => {
       const [result] = await trx("to_read").insert(createToReadDto, "id");
 
-      console.log({result})
+      console.log({ result });
 
       if (tags.length)
         await trx("to_read_keywords").insert(
@@ -137,7 +137,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
   addKeywordsByIds: async (keywords, id) =>
     await db("to_read_keywords").insert(
       keywords.map((keyword) => ({ to_read_id: id, keyword_id: keyword }))
-    )
+    ),
 });
 
 export default createRepository;

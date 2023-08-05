@@ -50,7 +50,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (!client.commands || !client.modals || !client.messages) return;
 
   if (interaction.isAnySelectMenu()) {
-    const [customId, customParameter] = interaction.customId.split('?');
+    const [customId, customParameter] = interaction.customId.split("?");
     const messageHandler = client.messages.get(customId);
 
     if (!messageHandler) return;

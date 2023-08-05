@@ -1,5 +1,5 @@
 import { ModalBuilder, ModalSubmitInteraction } from "discord.js";
-import type { Knex } from 'knex'
+import type { Knex } from "knex";
 
 export type ModalHandler = {
   name: string;
