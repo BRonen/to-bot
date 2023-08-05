@@ -1,11 +1,11 @@
 import {
   ActionRowBuilder,
   ModalBuilder,
-  ModalSubmitInteraction,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
 import { ModalHandler } from "./Modal";
+import addToreadKeywordsMessage from "../messages/add-to-read-keywords.message";
 
 const toReadModal: ModalHandler = {
   name: "create-to-read-modal",
@@ -33,9 +33,11 @@ const toReadModal: ModalHandler = {
 
     return modal;
   },
-  execute: async (interaction: ModalSubmitInteraction) => {
+  execute: async (interaction) => {
+    const keywordsSelect = addToreadKeywordsMessage.build();
     await interaction.reply({
-      content: "Your submission was received successfully!",
+      content: "Your submission was received successfully!; Select users:",
+      components: [keywordsSelect],
     });
   },
 };

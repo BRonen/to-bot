@@ -1,5 +1,5 @@
 import { REST, Routes } from "discord.js";
-import { loadCommandHandlers } from "../src/commands/loadCommandHandlers";
+import { loadCommandHandlers } from "../src/commands/commandHandlersLoader";
 
 if (!process.env.DISCORD_TOKEN)
   throw new Error("Invalid DISCORD_TOKEN value on environment");

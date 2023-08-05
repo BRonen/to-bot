@@ -1,7 +1,7 @@
 import { Collection } from "discord.js";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { CommandHandler } from "./Command";
+import type { CommandHandler } from "./Command";
 
 const commandsFolderPath = __dirname;
 
