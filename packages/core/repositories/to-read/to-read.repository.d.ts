@@ -32,4 +32,5 @@ export type ToReadRepository = {
   create: (createToReadDto: CreateToReadDto) => Promise<ToReadDto>;
   update: (updateToReadDto: UpdateToReadDto, id: string) => Promise<number>;
   delete: (id: string) => Promise<void>;
+  addKeywordsByIds: (keywords: number[], id: number) => Promise<number>;
 };

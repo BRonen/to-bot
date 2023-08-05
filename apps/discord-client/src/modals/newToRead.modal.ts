@@ -2,10 +2,12 @@ import {
   ActionRowBuilder,
   ModalBuilder,
   TextInputBuilder,
+  TextInputModalData,
   TextInputStyle,
 } from "discord.js";
 import { ModalHandler } from "./Modal";
 import addToreadKeywordsMessage from "../messages/add-to-read-keywords.message";
+import createToReadRepository from 'core/repositories/to-read/knex.repository'
 
 const toReadModal: ModalHandler = {
   name: "create-to-read-modal",
@@ -26,6 +28,7 @@ const toReadModal: ModalHandler = {
 
     const firstActionRow =
       new ActionRowBuilder<TextInputBuilder>().addComponents(nameInput);
+
     const secondActionRow =
       new ActionRowBuilder<TextInputBuilder>().addComponents(urlInput);
 
@@ -33,10 +36,22 @@ const toReadModal: ModalHandler = {
 
     return modal;
   },
-  execute: async (interaction) => {
-    const keywordsSelect = addToreadKeywordsMessage.build();
+  execute: async (interaction, db) => {
+    const name = interaction.fields.getField('nameInput') as TextInputModalData;
+    const url = interaction.fields.getField('urlInput') as TextInputModalData;
+
+    const toReadId = await createToReadRepository(db).create({
+      name: name.value,
+      url: url.value,
+      tags: [],
+    })
+
+    const keywordsSelect = await addToreadKeywordsMessage.build(db, toReadId.id.toString());
+
+    console.log({keywordsSelect});
+
     await interaction.reply({
-      content: "Your submission was received successfully!; Select users:",
+      content: `To-Read [${name.value}] created successfully!`,
       components: [keywordsSelect],
     });
   },

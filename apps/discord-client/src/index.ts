@@ -15,6 +15,11 @@ import { MessageHandler } from "./messages/Message";
 if (!process.env.DISCORD_TOKEN)
   throw new Error("Invalid token value on environment");
 
+import knex from "knex";
+import knexConfig from "core/knexfile";
+
+const db = knex(knexConfig["development"]);
+
 interface Maple extends Client {
   commands?: Collection<string, CommandHandler>;
   modals?: Collection<string, ModalHandler>;
@@ -45,11 +50,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (!client.commands || !client.modals || !client.messages) return;
 
   if (interaction.isAnySelectMenu()) {
-    const messageHandler = client.messages.get(interaction.customId);
+    const [customId, customParameter] = interaction.customId.split('?');
+    const messageHandler = client.messages.get(customId);
 
     if (!messageHandler) return;
 
-    return messageHandler.execute(interaction);
+    return messageHandler.execute(interaction, db, customParameter);
   }
 
   if (interaction.isModalSubmit()) {
@@ -57,7 +63,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (!modalHandler) return;
 
-    return modalHandler.execute(interaction);
+    return modalHandler.execute(interaction, db);
   }
 
   if (interaction.isCommand()) {

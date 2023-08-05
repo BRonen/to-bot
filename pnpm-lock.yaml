@@ -80,6 +80,9 @@ importers:
       discord.js:
         specifier: ^14.11.0
         version: 14.11.0
+      knex:
+        specifier: ^2.5.0
+        version: 2.5.0(better-sqlite3@8.4.0)
       nodemon:
         specifier: ^3.0.0
         version: 3.0.0
