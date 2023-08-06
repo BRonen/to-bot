@@ -53,10 +53,18 @@ client.on(Events.ClientReady, (c) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!client.commands || !client.modals || !client.messages || !client.contextMenuCommands) return;
+  if (
+    !client.commands ||
+    !client.modals ||
+    !client.messages ||
+    !client.contextMenuCommands
+  )
+    return;
 
   if (interaction.isContextMenuCommand()) {
-    const contextMenuCommandHandler = client.contextMenuCommands.get(interaction.commandName);
+    const contextMenuCommandHandler = client.contextMenuCommands.get(
+      interaction.commandName
+    );
 
     if (!contextMenuCommandHandler) return;
 
@@ -88,7 +96,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     return commandHandler.execute(interaction);
   }
 
-  console.log('else', interaction);
+  console.log("else", interaction);
 });
 
 client

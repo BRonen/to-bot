@@ -31,7 +31,7 @@ loadContextMenuCommandHandlers().then(async (commandFilePaths) => {
   } catch (error) {
     console.error(error);
   }
-})
+});
 
 loadCommandHandlers().then(async (commandFilePaths) => {
   const rest = new REST().setToken(process.env.DISCORD_TOKEN!);

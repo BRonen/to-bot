@@ -28,15 +28,12 @@ const addToreadKeywordsMessage: MessageHandler = {
       .setPlaceholder("Add To-Read keywords:")
       .setMaxValues(Math.min(25, toReadKeywords.length))
       .addOptions(
-        new StringSelectMenuOptionBuilder()
-          .setLabel("<clear>")
-          .setValue("0"),
-        ...toReadKeywords.map(
-          ({ id, tag }) =>
-            new StringSelectMenuOptionBuilder()
-              .setLabel(tag)
-              .setValue(id.toString()),
-        ),
+        new StringSelectMenuOptionBuilder().setLabel("<clear>").setValue("0"),
+        ...toReadKeywords.map(({ id, tag }) =>
+          new StringSelectMenuOptionBuilder()
+            .setLabel(tag)
+            .setValue(id.toString())
+        )
       );
 
     const actionRow = new ActionRowBuilder().addComponents(select);
@@ -46,14 +43,14 @@ const addToreadKeywordsMessage: MessageHandler = {
   execute: async (interaction, db, customParameter) => {
     const repository = createToReadRepository(db);
 
-    if (interaction.values.includes('0')) {
+    if (interaction.values.includes("0")) {
       await repository.clearKeywordsById(Number(customParameter));
       await interaction.reply("Successfully cleared!");
     } else {
       // TODO: actually this adds keywords without removing the previous
       await repository.addKeywordsByIds(
         interaction.values.map(Number),
-        Number(customParameter),
+        Number(customParameter)
       );
       await interaction.reply("Successfully added!");
     }
@@ -61,9 +58,9 @@ const addToreadKeywordsMessage: MessageHandler = {
     const toRead = await repository.find(customParameter);
 
     // TODO: move channels id to .env
-    const channel = interaction.guild?.channels.cache.get('393124178749816834');
-    
-    if(!channel?.isTextBased() || !toRead) return;
+    const channel = interaction.guild?.channels.cache.get("393124178749816834");
+
+    if (!channel?.isTextBased() || !toRead) return;
 
     const tags = toRead.tags || [];
 
@@ -75,23 +72,25 @@ const addToreadKeywordsMessage: MessageHandler = {
       description: toRead.url,
       fields: [
         {
-          name: '\u200b',
-          value: '\u200b',
+          name: "\u200b",
+          value: "\u200b",
           inline: false,
         },
-        ...(tags).map(tag => ({
+        ...tags.map((tag) => ({
           name: tag,
-          value: '',
+          value: "",
           inline: true,
         })),
       ],
       timestamp: new Date().toISOString(),
       footer: {
-        text: 'Last edit at'
+        text: "Last edit at",
       },
     };
 
-    (await channel.messages.fetch(toRead.discord_id)).edit({ embeds: [newToReadEmbed]});
+    (await channel.messages.fetch(toRead.discord_id)).edit({
+      embeds: [newToReadEmbed],
+    });
   },
 };
 

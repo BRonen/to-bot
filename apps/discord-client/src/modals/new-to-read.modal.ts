@@ -41,7 +41,9 @@ const toReadModal: ModalHandler = {
     const name = interaction.fields.getField("nameInput") as TextInputModalData;
     const url = interaction.fields.getField("urlInput") as TextInputModalData;
 
-    const toTestChannel = await interaction.guild?.channels.cache.get('393124178749816834');
+    const toTestChannel = await interaction.guild?.channels.cache.get(
+      "393124178749816834"
+    );
 
     if (!toTestChannel?.isTextBased()) return;
 
@@ -54,11 +56,13 @@ const toReadModal: ModalHandler = {
       fields: [],
       timestamp: new Date().toISOString(),
       footer: {
-        text: 'Last edit at'
+        text: "Last edit at",
       },
     };
 
-    const newToReadMessage = await toTestChannel.send({ embeds: [newToReadEmbed] });
+    const newToReadMessage = await toTestChannel.send({
+      embeds: [newToReadEmbed],
+    });
 
     const toReadId = await createToReadRepository(db).create({
       discord_id: newToReadMessage.id,
@@ -69,7 +73,7 @@ const toReadModal: ModalHandler = {
 
     const keywordsSelect = await addToreadKeywordsMessage.build(
       db,
-      toReadId.id.toString(),
+      toReadId.id.toString()
     );
 
     await interaction.reply({
