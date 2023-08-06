@@ -36,4 +36,5 @@ export type ToReadRepository = {
   delete: (id: string) => Promise<void>;
   addKeywordsByIds: (keywords: number[], id: number) => Promise<number>;
   clearKeywordsById: (id: number) => Promise<void>;
+  deleteByDiscordId: (discordId: string) => Promise<void>;
 };

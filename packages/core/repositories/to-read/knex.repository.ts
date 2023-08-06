@@ -143,6 +143,8 @@ const createRepository = (db: Knex): ToReadRepository => ({
     ),
   clearKeywordsById: async (id) =>
     await db("to_read_keywords").where('to_read_id', id).delete(),
+  deleteByDiscordId: async (discordId) =>
+    await db("to_read").where('discord_id', discordId).delete(),
 });
 
 export default createRepository;

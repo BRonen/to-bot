@@ -11,6 +11,8 @@ import { loadModalHandlers } from "./modals/modalHandlersLoader";
 import { ModalHandler } from "./modals/Modal";
 import { loadMessageHandlers } from "./messages/messageHandlersLoader";
 import { MessageHandler } from "./messages/Message";
+import { loadContextMenuCommandHandlers } from "./contextMenuCommand/contextMenuCommandHandlerLoader";
+import { ContextMenuCommandHandler } from "./contextMenuCommand/ContextMenuCommand";
 
 if (!process.env.DISCORD_TOKEN)
   throw new Error("Invalid token value on environment");
@@ -24,6 +26,7 @@ interface Maple extends Client {
   commands?: Collection<string, CommandHandler>;
   modals?: Collection<string, ModalHandler>;
   messages?: Collection<string, MessageHandler>;
+  contextMenuCommands?: Collection<string, ContextMenuCommandHandler>;
 }
 
 const client: Maple = new Client({
@@ -41,13 +44,24 @@ loadModalHandlers().then((modalHandlers) => {
 loadMessageHandlers().then((messageHandlers) => {
   client.messages = messageHandlers;
 });
+loadContextMenuCommandHandlers().then((contextMenuCommandHandlers) => {
+  client.contextMenuCommands = contextMenuCommandHandlers;
+});
 
 client.on(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!client.commands || !client.modals || !client.messages) return;
+  if (!client.commands || !client.modals || !client.messages || !client.contextMenuCommands) return;
+
+  if (interaction.isContextMenuCommand()) {
+    const contextMenuCommandHandler = client.contextMenuCommands.get(interaction.commandName);
+
+    if (!contextMenuCommandHandler) return;
+
+    return contextMenuCommandHandler.execute(interaction, db);
+  }
 
   if (interaction.isAnySelectMenu()) {
     const [customId, customParameter] = interaction.customId.split("?");
@@ -74,7 +88,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     return commandHandler.execute(interaction);
   }
 
-  console.log(interaction);
+  console.log('else', interaction);
 });
 
 client
