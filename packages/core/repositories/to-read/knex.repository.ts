@@ -6,7 +6,7 @@ interface ToReadRawResult {
   discord_id: string;
   url: string;
   name?: string;
-  readed: boolean,
+  readed: boolean;
   tag?: string;
   created_at: number;
   updated_at: number;
@@ -17,7 +17,8 @@ const parseToReadTags = (toReads: ToReadRawResult[]): ToReadDto | undefined => {
 
   for (const toRead of toReads)
     if (!result || !toRead.tag) {
-      const { id, discord_id, url, name, readed, created_at, updated_at } = toRead;
+      const { id, discord_id, url, name, readed, created_at, updated_at } =
+        toRead;
 
       result = {
         id,
@@ -45,7 +46,8 @@ const parseToReadsTags = (toReads: ToReadRawResult[]): ToReadDto[] => {
     if (results[toRead.id] && toRead.tag) {
       results[toRead.id].tags?.push(toRead.tag);
     } else {
-      const { id, discord_id, url, name, readed, created_at, updated_at } = toRead;
+      const { id, discord_id, url, name, readed, created_at, updated_at } =
+        toRead;
 
       results[id] = {
         id,

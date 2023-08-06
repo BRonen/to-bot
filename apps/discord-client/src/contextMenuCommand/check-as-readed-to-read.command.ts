@@ -12,7 +12,7 @@ const deleteToRead: ContextMenuCommandHandler = {
     await createToReadRepository(db).setAsReadedByDiscordId(
       interaction.targetMessage.id
     );
-    await interaction.targetMessage.react('✅');
+    await interaction.targetMessage.react("✅");
 
     await (await interaction.reply("Readed successfully")).delete();
   },
