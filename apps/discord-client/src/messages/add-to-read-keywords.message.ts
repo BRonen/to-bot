@@ -28,31 +28,70 @@ const addToreadKeywordsMessage: MessageHandler = {
       .setPlaceholder("Add To-Read keywords:")
       .setMaxValues(Math.min(25, toReadKeywords.length))
       .addOptions(
+        new StringSelectMenuOptionBuilder()
+          .setLabel("<clear>")
+          .setValue("0"),
         ...toReadKeywords.map(
           ({ id, tag }) =>
             new StringSelectMenuOptionBuilder()
               .setLabel(tag)
-              .setDescription("The Water-type Tiny Turtle Pokémon.")
               .setValue(id.toString()),
-          new StringSelectMenuOptionBuilder()
-            .setLabel("placeholder")
-            .setValue("0")
-        )
+        ),
       );
 
     const actionRow = new ActionRowBuilder().addComponents(select);
 
-    return actionRow;
+    return [actionRow];
   },
   execute: async (interaction, db, customParameter) => {
-    console.log(interaction.values);
+    const repository = createToReadRepository(db);
 
-    await createToReadRepository(db).addKeywordsByIds(
-      interaction.values.map(Number),
-      Number(customParameter)
-    );
+    if (interaction.values.includes('0')) {
+      await repository.clearKeywordsById(Number(customParameter));
+      await interaction.reply("Successfully cleared!");
+    } else {
+      // TODO: actually this adds keywords without removing the previous
+      await repository.addKeywordsByIds(
+        interaction.values.map(Number),
+        Number(customParameter),
+      );
+      await interaction.reply("Successfully added!");
+    }
 
-    await interaction.reply("Successfully added!");
+    const toRead = await repository.find(customParameter);
+
+    // TODO: move channels id to .env
+    const channel = interaction.guild?.channels.cache.get('393124178749816834');
+    
+    if(!channel?.isTextBased() || !toRead) return;
+
+    const tags = toRead.tags || [];
+
+    // TODO: move embed components to another folder
+    const newToReadEmbed = {
+      color: 0x0099ff,
+      title: toRead.name,
+      url: toRead.url,
+      description: toRead.url,
+      fields: [
+        {
+          name: '\u200b',
+          value: '\u200b',
+          inline: false,
+        },
+        ...(tags).map(tag => ({
+          name: tag,
+          value: '',
+          inline: true,
+        })),
+      ],
+      timestamp: new Date().toISOString(),
+      footer: {
+        text: 'Last edit at'
+      },
+    };
+
+    (await channel.messages.fetch(toRead.discord_id)).edit({ embeds: [newToReadEmbed]});
   },
 };
 
