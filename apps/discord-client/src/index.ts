@@ -31,7 +31,7 @@ interface Maple extends Client {
 
 const client: Maple = new Client({
   makeCache: Options.cacheWithLimits(Options.DefaultMakeCacheSettings),
-  intents: [GatewayIntentBits.Guilds],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessageReactions],
   partials: [],
 });
 

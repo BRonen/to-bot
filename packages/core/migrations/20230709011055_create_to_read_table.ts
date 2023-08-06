@@ -6,7 +6,7 @@ export const up: KnexMigration = async (knex) =>
   knex.schema
     .createTable("to_read", (table) => {
       table.increments("id");
-      table.string("discord_id", 255).notNullable().unique();
+      table.string("discord_id", 255).notNullable().unique().index();
       table.string("url", 255).notNullable().unique();
       table.string("name", 255);
       table.boolean("readed").notNullable().defaultTo(false);

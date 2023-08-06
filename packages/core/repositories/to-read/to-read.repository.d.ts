@@ -10,6 +10,7 @@ export type ToReadDto = {
   discord_id: string;
   url: string;
   name?: string;
+  readed: boolean;
   tags?: string[];
   created_at: number;
   updated_at: number;
@@ -37,4 +38,5 @@ export type ToReadRepository = {
   addKeywordsByIds: (keywords: number[], id: number) => Promise<number>;
   clearKeywordsById: (id: number) => Promise<void>;
   deleteByDiscordId: (discordId: string) => Promise<void>;
+  setAsReadedByDiscordId: (discordId: string) => Promise<void>;
 };

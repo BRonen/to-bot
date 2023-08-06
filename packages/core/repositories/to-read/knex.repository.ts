@@ -6,6 +6,7 @@ interface ToReadRawResult {
   discord_id: string;
   url: string;
   name?: string;
+  readed: boolean,
   tag?: string;
   created_at: number;
   updated_at: number;
@@ -16,13 +17,14 @@ const parseToReadTags = (toReads: ToReadRawResult[]): ToReadDto | undefined => {
 
   for (const toRead of toReads)
     if (!result || !toRead.tag) {
-      const { id, discord_id, url, name, created_at, updated_at } = toRead;
+      const { id, discord_id, url, name, readed, created_at, updated_at } = toRead;
 
       result = {
         id,
         discord_id,
         url,
         name,
+        readed,
         tags: [],
         created_at,
         updated_at,
@@ -43,13 +45,14 @@ const parseToReadsTags = (toReads: ToReadRawResult[]): ToReadDto[] => {
     if (results[toRead.id] && toRead.tag) {
       results[toRead.id].tags?.push(toRead.tag);
     } else {
-      const { id, discord_id, url, name, created_at, updated_at } = toRead;
+      const { id, discord_id, url, name, readed, created_at, updated_at } = toRead;
 
       results[id] = {
         id,
         discord_id,
         url,
         name,
+        readed,
         tags: [],
         created_at,
         updated_at,
@@ -65,7 +68,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
   find: async (toReadId) => {
     const results = await db.raw<ToReadRawResult[]>(
       `
-            select tr.id, tr.discord_id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
+            select tr.id, tr.discord_id, tr.url, tr.name, tr.readed, k.tag, tr.created_at, tr.updated_at
             from to_read as tr
             left join keywords as k
             on k.id in
@@ -86,7 +89,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
     // TODO: remove duplicated code
     const query = params.tags
       ? `
-      select tr.id, tr.discord_id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
+      select tr.id, tr.discord_id, tr.url, tr.name, tr.name, tr.readed, k.tag, tr.created_at, tr.updated_at
       from to_read as tr
       left join keywords as k
       on k.id in
@@ -100,7 +103,7 @@ const createRepository = (db: Knex): ToReadRepository => ({
       offset :offset
     `
       : `
-      select tr.id, tr.discord_id, tr.url, tr.name, tr.name, k.tag, tr.created_at, tr.updated_at
+      select tr.id, tr.discord_id, tr.url, tr.name, tr.name, tr.readed, k.tag, tr.created_at, tr.updated_at
       from to_read as tr
       left join keywords as k
       on k.id in
@@ -145,6 +148,9 @@ const createRepository = (db: Knex): ToReadRepository => ({
     await db("to_read_keywords").where("to_read_id", id).delete(),
   deleteByDiscordId: async (discordId) =>
     await db("to_read").where("discord_id", discordId).delete(),
+  setAsReadedByDiscordId: async (discordId) => {
+    await db("to_read").update({ readed: true }).where("discord_id", discordId);
+  },
 });
 
 export default createRepository;
