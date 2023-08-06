@@ -42,7 +42,7 @@ const toReadModal: ModalHandler = {
     const url = interaction.fields.getField("urlInput") as TextInputModalData;
 
     const toTestChannel = await interaction.guild?.channels.cache.get(
-      "393124178749816834"
+      "1135364910453374996"
     );
 
     if (!toTestChannel?.isTextBased()) return;
@@ -77,7 +77,8 @@ const toReadModal: ModalHandler = {
     );
 
     await interaction.reply({
-      content: `To-Read [${name.value}] created successfully!`,
+      content: `To-Read [${name.value}] cr
+      eated successfully!`,
       components: keywordsSelect,
     });
   },

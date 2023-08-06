@@ -65,6 +65,22 @@ router
       ctx.body = "Internal Server Error";
       ctx.status = 500;
     }
+  })
+  .delete("/keywords/:id", async (ctx) => {
+    const repository = createToReadKeywordsRepository(ctx.db);
+
+    try {
+      const records = await toreadKeywordsController.delete(
+        repository,
+        ctx.params.id
+      );
+
+      ctx.body = records;
+    } catch (e: any) {
+      console.error(e);
+      ctx.body = "Internal Server Error";
+      ctx.status = 500;
+    }
   });
 
 router

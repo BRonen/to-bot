@@ -15,9 +15,13 @@ export const up: KnexMigration = async (knex) =>
     .createTable("to_read_keywords", (table) => {
       table.timestamps(true, true);
 
-      table.integer("to_read_id").index().references("id").inTable("to_read");
+      table.integer("to_read_id").index()
+      .references("id").inTable("to_read")
+      .onUpdate('CASCADE').onDelete('CASCADE');
 
-      table.integer("keyword_id").index().references("id").inTable("keywords");
+      table.integer("keyword_id").index()
+      .references("id").inTable("keywords")
+      .onUpdate('CASCADE').onDelete('CASCADE');
     })
     .createTable("keywords", (table) => {
       table.timestamps(true, true);

@@ -20,6 +20,10 @@ interface Controller {
     updateToReadDto: UpdateToReadKeywordDto,
     id: string
   ) => Promise<number>;
+  delete: (
+    repository: ToReadKeywordsRepository,
+    id: string
+  ) => Promise<void>;
 }
 const controller: Controller = {
   index: async (repository) => await repository.findAll(),
@@ -27,6 +31,7 @@ const controller: Controller = {
   store: async (repository, { tag }) => await repository.create({ tag }),
   update: async (repository, { tag }, id) =>
     await repository.update({ tag }, id),
+  delete: async (repository, id) => await repository.delete(id),
 };
 
 export default controller;

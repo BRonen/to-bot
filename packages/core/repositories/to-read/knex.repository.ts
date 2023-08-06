@@ -123,25 +123,25 @@ const createRepository = (db: Knex): ToReadRepository => ({
   },
 
   create: async ({ tags, ...createToReadDto }) =>
-    await db.transaction(async (trx) => {
-      const [result] = await trx("to_read").insert(createToReadDto, "id");
-
-      console.log({ result });
-
-      if (tags.length)
-        await trx("to_read_keywords").insert(
-          tags.map((tag) => ({ to_read_id: result.id, keyword_id: tag }))
-        );
-
+  await db.transaction(async (trx) => {
+    const [result] = await trx("to_read").insert(createToReadDto, "id");
+    
+    if (tags.length)
+    await trx("to_read_keywords").insert(
+      tags.map((tag) => ({ to_read_id: result.id, keyword_id: tag }))
+      );
+      
       return result;
     }),
-
-  // todo: add a update function that updates tags relations too
+    
+  // TODO: add returning to see the result of update and delete
+  // TODO: add a update function that updates tags relations too
   update: async (updateToReadDto, id) =>
     await db("to_read").update(updateToReadDto).where("id", id),
 
-  // todo: add a delete function that deletes the to read item from the database and its relations
-  delete: async (_id) => {},
+  delete: async (id) => {
+    await db("to_read").where("id", id).delete();
+  },
   addKeywordsByIds: async (keywords, id) =>
     await db("to_read_keywords").insert(
       keywords.map((keyword) => ({ to_read_id: id, keyword_id: keyword }))

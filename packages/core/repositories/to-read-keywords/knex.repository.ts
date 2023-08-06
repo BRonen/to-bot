@@ -24,8 +24,9 @@ const createRepository = (db: Knex): ToReadKeywordsRepository => ({
   update: async (updateToReadDto, id) =>
     await db("keywords").update(updateToReadDto).where("id", id),
 
-  // todo: add a delete function that deletes the to read item from the database and its relations
-  delete: async (_id) => {},
+  delete: async (id) => {
+    await db("keywords").where("id", id).delete();
+  },
 });
 
 export default createRepository;
