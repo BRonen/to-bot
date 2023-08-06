@@ -38,8 +38,8 @@ const controller: Controller = {
 
   show: async (repository, id) => repository.find(id),
 
-  store: async (repository, { url, name, tags }) =>
-    repository.create({ url, name, tags }),
+  store: async (repository, { discord_id, url, name, tags }) =>
+    repository.create({ discord_id, url, name, tags }),
 
   update: async (repository, { url, name }, id) =>
     repository.update({ url, name }, id),

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { CommandHandler } from "./Command";
-import newToReadModal from "../modals/newToRead.modal";
+import newToReadModal from "../modals/new-to-read.modal";
 
 const handler: CommandHandler = {
   data: new SlashCommandBuilder()

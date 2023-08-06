@@ -7,6 +7,7 @@ export type ToReadSearchFilters = {
 
 export type ToReadDto = {
   id: number;
+  discord_id: string;
   url: string;
   name?: string;
   tags?: string[];
@@ -15,6 +16,7 @@ export type ToReadDto = {
 };
 
 export type CreateToReadDto = {
+  discord_id: string;
   url: string;
   tags: number[];
   name?: string;
@@ -33,4 +35,5 @@ export type ToReadRepository = {
   update: (updateToReadDto: UpdateToReadDto, id: string) => Promise<number>;
   delete: (id: string) => Promise<void>;
   addKeywordsByIds: (keywords: number[], id: number) => Promise<number>;
+  clearKeywordsById: (id: number) => Promise<void>;
 };
