@@ -1,4 +1,4 @@
-import { Knex } from "knex";
+import type { Knex } from "knex";
 
 type KnexMigration = (knex: Knex) => Promise<void>;
 
@@ -14,7 +14,6 @@ export const up: KnexMigration = async (knex) =>
     })
     .createTable("to_read_keywords", (table) => {
       table.timestamps(true, true);
-
       table
         .integer("to_read_id")
         .index()
@@ -22,7 +21,6 @@ export const up: KnexMigration = async (knex) =>
         .inTable("to_read")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-
       table
         .integer("keyword_id")
         .index()
