@@ -5,7 +5,7 @@ const config: { [key: string]: Knex.Config } = {
     debug: true,
     client: "better-sqlite3",
     connection: {
-      filename: "../../packages/core/dev.sqlite3",
+      filename: "../../packages/database/dev.sqlite3",
     },
   },
 

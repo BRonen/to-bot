@@ -2,7 +2,7 @@
   "name": "@to-bot/env",
   "version": "1.0.0",
   "description": "@to-bot/environment loader",
-  "main": "index.ts",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",

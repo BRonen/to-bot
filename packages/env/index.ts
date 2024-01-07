@@ -13,8 +13,8 @@ export type ApiEnvironment = {
 
 export const loadApiEnvironment = (): ApiEnvironment => {
   const environment = {
-    PORT: process.env.PORT as any,
-    DATABASE_CONFIG: process.env.DATABASE_CONFIG as any,
+    PORT: process.env.PORT as unknown as number,
+    DATABASE_CONFIG: process.env.DATABASE_CONFIG as unknown as "development" | "production",
   };
 
   return environment;

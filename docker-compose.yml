@@ -1,0 +1,21 @@
+services:
+  api:
+    build: 
+      dockerfile: ./docker/Dockerfile.api
+    volumes:
+      - "${PWD}:/app"
+    environment:
+      - PORT=80
+      - DATABASE_URI=postgres://postgres:password@auth-database:5432/auth_database
+    ports:
+      - 80:4000
+
+#  database:
+#    image: postgres
+#    environment:
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: auth_database
+#    ports:
+#      - 5432:5432
+#    networks:
+#      - auth-network

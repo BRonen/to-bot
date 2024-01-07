@@ -6,7 +6,7 @@ import {
   TextInputStyle,
 } from "discord.js";
 import { ModalHandler } from "./Modal";
-import createToReadKeywordsRepository from "core/repositories/to-read-keywords/knex.repository";
+import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
 
 const toReadKeywordModal: ModalHandler = {
   name: "create-to-read-keyword-modal",
