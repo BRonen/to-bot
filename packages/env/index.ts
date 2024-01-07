@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import knexConfig, {
   KnexConfig,
 } from "@to-bot/database/repositories/knex/knexfile";
@@ -11,7 +9,10 @@ export type ApiEnvironment = {
   DATABASE_CONFIG: "development" | "production";
 };
 
-export const loadApiEnvironment = (): ApiEnvironment => {
+export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
+  if(!process.env.PORT)
+    await import("dotenv/config");
+
   const environment = {
     PORT: process.env.PORT as unknown as number,
     DATABASE_CONFIG: process.env.DATABASE_CONFIG as unknown as "development" | "production",
@@ -22,9 +23,12 @@ export const loadApiEnvironment = (): ApiEnvironment => {
 
 export type DatabaseEnvironment = KnexConfig;
 
-export const loadDatabaseEnvironment = (
+export const loadDatabaseEnvironment = async (
   config: "development" | "production"
-): DatabaseEnvironment => {
+): Promise<DatabaseEnvironment> => {
+  if(!process.env.PORT)
+    await import("dotenv/config");
+
   const dbConfig = knexConfig[config];
 
   return dbConfig;

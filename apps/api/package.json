@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"ts-node src/index.ts\"",
-    "start": "dotenv -e ../../.env node dist/index.js",
+    "start": "node dist/index.js",
     "lint": "eslint \"**/*.ts\" --quiet --cache"
   },
   "license": "MIT",
