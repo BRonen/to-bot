@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import knexConfig, { KnexConfig } from "database/knexfile";
+import knexConfig, { KnexConfig } from "database/repositories/knex/knexfile";
 
 // implement a checking to type safe environment loading
 
