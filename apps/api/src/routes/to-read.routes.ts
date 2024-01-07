@@ -3,8 +3,8 @@ import Router from "@koa/router";
 import toreadController from "../controllers/to-read.controller";
 import toreadKeywordsController from "../controllers/to-read-keywords.controller";
 
-import createToReadRepository from "database/repositories/knex/to-read.repository";
-import createToReadKeywordsRepository from "database/repositories/knex/to-read-keywords.repository";
+import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
+import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
 
 const router = new Router({ prefix: "/to-read" });
 

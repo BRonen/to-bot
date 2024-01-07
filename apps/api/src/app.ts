@@ -5,7 +5,7 @@ import Router from "@koa/router";
 
 import { Knex } from "knex";
 
-import { ApiEnvironment } from "env";
+import { ApiEnvironment } from "@to-bot/env";
 
 export const createApp = (
   routes: Router,

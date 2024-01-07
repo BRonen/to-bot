@@ -1,7 +1,7 @@
 {
-  "name": "env",
+  "name": "@to-bot/env",
   "version": "1.0.0",
-  "description": "Environment loader",
+  "description": "@to-bot/environment loader",
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
-    "database": "workspace:*"
+    "@to-bot/database": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",

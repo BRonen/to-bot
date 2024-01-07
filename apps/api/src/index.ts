@@ -1,7 +1,7 @@
 import knex from "knex";
 
 import routes from "./routes";
-import { loadApiEnvironment, loadDatabaseEnvironment } from "env";
+import { loadApiEnvironment, loadDatabaseEnvironment } from "@to-bot/env";
 import { createApp } from "./app";
 
 const env = loadApiEnvironment();

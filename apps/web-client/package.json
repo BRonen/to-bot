@@ -13,7 +13,7 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/node": "^18.16.19",
-    "database": "workspace:*",
+    "@to-bot/database": "workspace:*",
     "nuxt": "^3.6.3",
     "typescript": "^4.5.3"
   }
