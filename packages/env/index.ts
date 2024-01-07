@@ -20,7 +20,9 @@ export const loadApiEnvironment = (): ApiEnvironment => {
 
 export type DatabaseEnvironment = KnexConfig;
 
-export const loadDatabaseEnvironment = (config: "development" | "production"): DatabaseEnvironment => {
+export const loadDatabaseEnvironment = (
+  config: "development" | "production"
+): DatabaseEnvironment => {
   const dbConfig = knexConfig[config];
 
   return dbConfig;
