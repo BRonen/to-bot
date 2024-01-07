@@ -1,0 +1,21 @@
+{
+  "name": "env",
+  "version": "1.0.0",
+  "description": "Environment loader",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint \"**/*.ts\" --quiet --cache"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "database": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.12",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.3"
+  }
+}
