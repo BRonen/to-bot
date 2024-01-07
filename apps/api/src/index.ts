@@ -1,11 +1,13 @@
 import knex from "knex";
 
 import routes from "./routes";
-import { environment, dbConfig } from "./env";
+import { loadApiEnvironment, loadDatabaseEnvironment } from "env";
 import { createApp } from "./app";
 
-const db = knex(dbConfig);
+const db = knex(loadDatabaseEnvironment());
 
-createApp(routes, db, environment).listen(environment.PORT, () =>
-  console.log(`listening at http://localhost:${environment.PORT}/`)
+const env = loadApiEnvironment();
+
+createApp(routes, db, env).listen(env.PORT, () =>
+  console.log(`listening at http://localhost:${env.PORT}/`)
 );

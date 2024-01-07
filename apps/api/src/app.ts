@@ -5,12 +5,12 @@ import Router from "@koa/router";
 
 import { Knex } from "knex";
 
-import { Environment } from "./env";
+import { ApiEnvironment } from "env";
 
 export const createApp = (
   routes: Router,
   db: Knex,
-  _environment: Environment
+  _environment: ApiEnvironment
 ) => {
   const app = new Koa();
 

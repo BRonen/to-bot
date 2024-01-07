@@ -3,7 +3,7 @@ import type {
   ToReadDto,
   ToReadRepository,
   UpdateToReadDto,
-} from "core/repositories/to-read/to-read.repository";
+} from "database/repositories/to-read/to-read.repository";
 
 type ToReadFilters = {
   page: string | string[] | undefined;
