@@ -6,9 +6,11 @@ const router = new Router({
 });
 
 const routesFiles = fs.readdirSync(__dirname);
+
 console.log(`Found ${routesFiles.length - 1} routes files.`);
 
-type RoutesImport = { default: Router };
+type DynamicRoute = { default: Router };
+
 routesFiles.forEach(async (routesFile) => {
   if (!routesFile.endsWith(".routes.ts")) return;
 
@@ -17,7 +19,7 @@ routesFiles.forEach(async (routesFile) => {
   try {
     const { default: routesRouter } = (await import(
       `./${routesFile}`
-    )) as RoutesImport;
+    )) satisfies DynamicRoute;
 
     router.use(routesRouter.routes()).use(routesRouter.allowedMethods());
   } catch (e) {
