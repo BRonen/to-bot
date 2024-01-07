@@ -6,9 +6,7 @@ import toreadKeywordsController from "../controllers/to-read-keywords.controller
 import createToReadRepository from "database/repositories/knex/to-read.repository";
 import createToReadKeywordsRepository from "database/repositories/knex/to-read-keywords.repository";
 
-const router = new Router({
-  prefix: "/to-read",
-});
+const router = new Router({ prefix: "/to-read" });
 
 router
   .get("/keywords", async (ctx) => {

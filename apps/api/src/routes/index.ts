@@ -1,9 +1,7 @@
 import Router from "@koa/router";
 import fs from "fs";
 
-const router = new Router({
-  prefix: "/api",
-});
+const router = new Router({ prefix: "/api" });
 
 const routesFiles = fs.readdirSync(__dirname);
 
