@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"dotenv -e ../../.env ts-node src/index.ts\"",
+    "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"ts-node src/index.ts\"",
     "start": "node dist/index.js",
     "lint": "eslint \"**/*.ts\" --quiet --cache",
     "script:deploy-commands": "dotenv -e ../../.env ts-node ./scripts/deployCommands.ts"

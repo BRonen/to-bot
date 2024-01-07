@@ -5,10 +5,11 @@ services:
     volumes:
       - "${PWD}:/app"
     environment:
-      - PORT=80
-      - DATABASE_URI=postgres://postgres:password@auth-database:5432/auth_database
+      - PORT=4000
+      - DATABASE_CONFIG=development
+      # - DATABASE_URI=postgres://postgres:password@auth-database:5432/auth_database
     ports:
-      - 80:4000
+      - "4000:4000"
 
 #  database:
 #    image: postgres

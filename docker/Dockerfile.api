@@ -8,4 +8,6 @@ COPY .. .
 
 RUN pnpm install
 
-CMD ["pnpm", "run", "api:dev"]
+RUN pnpm run build
+
+CMD ["pnpm", "run", "api:start"]
