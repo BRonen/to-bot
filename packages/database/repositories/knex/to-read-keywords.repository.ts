@@ -2,7 +2,7 @@ import type { Knex } from "knex";
 import type {
   ToReadKeywordDto,
   ToReadKeywordsRepository,
-} from "./to-read-keywords.repository";
+} from "./to-read-keywords.repository.d";
 
 const createRepository = (db: Knex): ToReadKeywordsRepository => ({
   find: async (keywordId) =>

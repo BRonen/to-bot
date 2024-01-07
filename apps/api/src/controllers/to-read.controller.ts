@@ -3,7 +3,7 @@ import type {
   ToReadDto,
   ToReadRepository,
   UpdateToReadDto,
-} from "database/repositories/knex/to-read/to-read.repository";
+} from "database/repositories/knex/to-read.repository.d";
 
 type ToReadFilters = {
   page: string | string[] | undefined;

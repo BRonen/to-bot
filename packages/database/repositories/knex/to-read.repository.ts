@@ -1,5 +1,5 @@
 import type { Knex } from "knex";
-import type { ToReadDto, ToReadRepository } from "./to-read.repository";
+import type { ToReadDto, ToReadRepository } from "./to-read.repository.d";
 
 interface ToReadRawResult {
   id: number;

@@ -1,5 +1,5 @@
 import type { Knex } from "knex";
-import type { ToReadRepository } from "./to-do.repository";
+import type { ToReadRepository } from "./to-do.repository.d";
 
 const createRepository = (db: Knex): ToReadRepository => ({
   find: async (toReadId) => {
