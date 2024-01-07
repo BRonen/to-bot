@@ -12,9 +12,9 @@ export type ToReadDto = {
   updated_at: number;
 };
 
-export type CreateToReadDto = any;
+export type CreateToReadDto = unknown;
 
-export type UpdateToReadDto = any;
+export type UpdateToReadDto = unknown;
 
 export type ToReadRepository = {
   find: (id: string) => Promise<ToReadDto | undefined>;

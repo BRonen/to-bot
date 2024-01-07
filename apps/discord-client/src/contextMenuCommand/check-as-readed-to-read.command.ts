@@ -1,6 +1,6 @@
 import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js";
 import { ContextMenuCommandHandler } from "./ContextMenuCommand";
-import createToReadRepository from "core/repositories/to-read/knex.repository";
+import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
 
 const deleteToRead: ContextMenuCommandHandler = {
   data: new ContextMenuCommandBuilder()

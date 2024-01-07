@@ -36,12 +36,12 @@ router
       );
 
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;
 
-      if (e.code === "SQLITE_CONSTRAINT_UNIQUE") {
+      if ((e as { code: string }).code === "SQLITE_CONSTRAINT_UNIQUE") {
         ctx.body = "Task Already Exists";
         ctx.status = 400;
       }
@@ -58,7 +58,7 @@ router
       );
 
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;
@@ -74,7 +74,7 @@ router
       );
 
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;
@@ -117,12 +117,12 @@ router
         ctx.request.body
       );
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;
 
-      if (e.code === "SQLITE_CONSTRAINT_UNIQUE") {
+      if ((e as { code: string }).code === "SQLITE_CONSTRAINT_UNIQUE") {
         ctx.body = "Task Already Exists";
         ctx.status = 400;
       }
@@ -138,7 +138,7 @@ router
         ctx.params.id
       );
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;
@@ -150,7 +150,7 @@ router
     try {
       const records = await toreadController.delete(repository, ctx.params.id);
       ctx.body = records;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       ctx.body = "Internal Server Error";
       ctx.status = 500;

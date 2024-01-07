@@ -18,7 +18,7 @@ if (!process.env.DISCORD_TOKEN)
   throw new Error("Invalid token value on environment");
 
 import knex from "knex";
-import knexConfig from "core/knexfile";
+import knexConfig from "@to-bot/database/repositories/knex/knexfile";
 
 const db = knex(knexConfig["development"]);
 

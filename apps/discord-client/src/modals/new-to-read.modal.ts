@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import { ModalHandler } from "./Modal";
 import addToreadKeywordsMessage from "../messages/add-to-read-keywords.message";
-import createToReadRepository from "core/repositories/to-read/knex.repository";
+import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
 
 const toReadModal: ModalHandler = {
   name: "create-to-read-modal",

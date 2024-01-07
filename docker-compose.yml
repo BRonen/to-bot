@@ -1,0 +1,19 @@
+services:
+  api:
+    build: 
+      dockerfile: ./docker/Dockerfile.api
+    environment:
+      - PORT=4000
+      - DATABASE_CONFIG=development
+    ports:
+      - "4000:4000"
+
+#  database:
+#    image: postgres
+#    environment:
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: auth_database
+#    ports:
+#      - 5432:5432
+#    networks:
+#      - auth-network

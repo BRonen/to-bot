@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"dotenv -e ../../.env ts-node src/index.ts\"",
+    "dev": "nodemon --ignore tests/ --watch src -e ts,tsx --exec \"ts-node src/index.ts\"",
     "start": "node dist/index.js",
     "lint": "eslint \"**/*.ts\" --quiet --cache"
   },
@@ -15,17 +15,17 @@
     "@koa/router": "^12.0.0",
     "@types/koa": "^2.13.6",
     "better-sqlite3": "^8.4.0",
-    
+    "dotenv-cli": "^7.3.0",
     "knex": "^2.5.0",
     "koa": "^2.14.2",
     "nodemon": "^3.0.0"
   },
   "devDependencies": {
+    "@to-bot/database": "workspace:*",
+    "@to-bot/env": "workspace:*",
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa__router": "^12.0.0",
     "@types/node": "^17.0.12",
-    "@to-bot/database": "workspace:*",
-    "@to-bot/env": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",

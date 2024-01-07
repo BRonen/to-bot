@@ -4,8 +4,8 @@ import {
   StringSelectMenuOptionBuilder,
 } from "discord.js";
 import { MessageHandler } from "./Message";
-import createToReadKeywordsRepository from "core/repositories/to-read-keywords/knex.repository";
-import createToReadRepository from "core/repositories/to-read/knex.repository";
+import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
+import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
 
 const addToreadKeywordsMessage: MessageHandler = {
   name: "add-to-read-keywords",

@@ -7,8 +7,12 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "discord:dev": "turbo run dev --filter=discord-client",
+    "discord:build": "turbo run build --filter=discord-client",
     "web:dev": "turbo run dev --filter=web-client",
+    "web:build": "turbo run build --filter=web-client",
     "api:dev": "turbo run dev --filter=api",
+    "api:build": "turbo run build --filter=api",
+    "api:start": "turbo run start --filter=api",
     "db:migrate": "turbo run db:migrate --filter=core",
     "db:rollback": "turbo run db:rollback --filter=core"
   },
