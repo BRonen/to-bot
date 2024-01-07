@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
-    "core": "workspace:*",
+    "database": "workspace:*",
     "dotenv-cli": "^7.2.1",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
