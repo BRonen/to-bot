@@ -3,7 +3,7 @@ import type {
   ToReadKeywordDto,
   ToReadKeywordsRepository,
   UpdateToReadKeywordDto,
-} from "database/repositories/knex/to-read-keywords.repository.d";
+} from "database/repositories/knex/to-read-keywords.repository";
 
 interface Controller {
   index: (repository: ToReadKeywordsRepository) => Promise<ToReadKeywordDto[]>;
