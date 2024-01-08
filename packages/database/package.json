@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "better-sqlite3": "^8.4.0",
-    "knex": "^2.5.0"
+    "drizzle-orm": "^0.29.3",
+    "knex": "^2.5.0",
+    "postgres": "^3.4.3"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
+    "drizzle-kit": "^0.20.10",
     "eslint-config-custom": "workspace:*",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
