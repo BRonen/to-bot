@@ -9,11 +9,11 @@
     "lint": "eslint \"**/*.ts\" --quiet --cache"
   },
   "dependencies": {
-    "dotenv": "^16.3.1",
     "@to-bot/database": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
+    "dotenv": "^16.3.1",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
