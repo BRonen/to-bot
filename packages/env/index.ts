@@ -1,7 +1,3 @@
-import knexConfig, {
-  KnexConfig,
-} from "@to-bot/database/repositories/knex/knexfile";
-
 import "dotenv/config";
 
 // implement a checking to type safe environment loading
@@ -24,12 +20,14 @@ export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
   return environment;
 };
 
-export type DatabaseEnvironment = KnexConfig;
+export type DatabaseEnvironment = {
+  DATABASE_URI: string;
+};
 
-export const loadDatabaseEnvironment = async (
-  config: "development" | "production"
-): Promise<DatabaseEnvironment> => {
-  const dbConfig = knexConfig[config];
+export const loadDatabaseEnvironment = async (): Promise<DatabaseEnvironment> => {
+  const environment = {
+    DATABASE_URI: process.env.DATABASE_URI as unknown as string
+  }
 
-  return dbConfig;
+  return environment;
 };
