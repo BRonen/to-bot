@@ -3,14 +3,11 @@ import Koa, { type DefaultState } from "koa";
 import bodyParser from "@koa/bodyparser";
 import Router from "@koa/router";
 
-import { Knex } from "knex";
-
 import type { ApiEnvironment } from "@to-bot/env";
 import type { AppContext, Database } from "./types";
 
 export const createApp = (
   routes: Router<DefaultState, AppContext>,
-  db: Knex,
   database: Database,
   _environment: ApiEnvironment
 ) => {
@@ -19,7 +16,6 @@ export const createApp = (
   return app
     .use(bodyParser())
     .use(async (ctx, next) => {
-      ctx.db = db;
       ctx.database = database;
       await next();
     })
