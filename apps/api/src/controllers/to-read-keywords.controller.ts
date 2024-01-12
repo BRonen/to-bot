@@ -3,7 +3,7 @@ import type {
   ToReadKeywordDto,
   ToReadKeywordsRepository,
   UpdateToReadKeywordDto,
-} from "@to-bot/database/repositories/knex/to-read-keywords.repository";
+} from "@to-bot/database/repositories/to-read-keywords.repository";
 
 interface Controller {
   index: (repository: ToReadKeywordsRepository) => Promise<ToReadKeywordDto[]>;
@@ -19,8 +19,8 @@ interface Controller {
     repository: ToReadKeywordsRepository,
     updateToReadDto: UpdateToReadKeywordDto,
     id: string
-  ) => Promise<number>;
-  delete: (repository: ToReadKeywordsRepository, id: string) => Promise<void>;
+  ) => Promise<ToReadKeywordDto>;
+  delete: (repository: ToReadKeywordsRepository, id: string) => Promise<ToReadKeywordDto>;
 }
 const controller: Controller = {
   index: async (repository) => await repository.findAll(),

@@ -2,7 +2,7 @@ import Router from "@koa/router";
 import type { DefaultState } from "koa";
 
 import createToReadRepository from "@to-bot/database/repositories/to-read.repository";
-import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
+import createToReadKeywordsRepository from "@to-bot/database/repositories/to-read-keywords.repository";
 
 import toreadController from "../controllers/to-read.controller";
 import toreadKeywordsController from "../controllers/to-read-keywords.controller";
@@ -13,14 +13,14 @@ const router = new Router<DefaultState, AppContext>({ prefix: "/to-read" });
 
 router
   .get("/keywords", async (ctx) => {
-    const repository = createToReadKeywordsRepository(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.database);
 
     const records = await toreadKeywordsController.index(repository);
 
     ctx.body = records;
   })
   .get("/keywords/:id", async (ctx) => {
-    const repository = createToReadKeywordsRepository(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.database);
 
     const records = await toreadKeywordsController.show(
       repository,
@@ -30,7 +30,7 @@ router
     ctx.body = records;
   })
   .post("/keywords", async (ctx) => {
-    const repository = createToReadKeywordsRepository(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.database);
 
     const records = await toreadKeywordsController.store(
       repository,
@@ -40,7 +40,7 @@ router
     ctx.body = records;
   })
   .put("/keywords/:id", async (ctx) => {
-    const repository = createToReadKeywordsRepository(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.database);
 
     const records = await toreadKeywordsController.update(
       repository,
@@ -51,7 +51,7 @@ router
     ctx.body = records;
   })
   .delete("/keywords/:id", async (ctx) => {
-    const repository = createToReadKeywordsRepository(ctx.db);
+    const repository = createToReadKeywordsRepository(ctx.database);
 
     const records = await toreadKeywordsController.delete(
       repository,
