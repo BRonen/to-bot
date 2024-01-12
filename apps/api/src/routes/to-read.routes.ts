@@ -1,11 +1,11 @@
 import Router from "@koa/router";
 import type { DefaultState } from "koa";
 
+import createToReadRepository from "@to-bot/database/repositories/to-read.repository";
+import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
+
 import toreadController from "../controllers/to-read.controller";
 import toreadKeywordsController from "../controllers/to-read-keywords.controller";
-
-import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
-import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
 
 import { AppContext } from "../types";
 
@@ -32,62 +32,39 @@ router
   .post("/keywords", async (ctx) => {
     const repository = createToReadKeywordsRepository(ctx.db);
 
-    try {
-      const records = await toreadKeywordsController.store(
-        repository,
-        ctx.request.body
-      );
+    const records = await toreadKeywordsController.store(
+      repository,
+      ctx.request.body
+    );
 
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-
-      if ((e as { code: string }).code === "SQLITE_CONSTRAINT_UNIQUE") {
-        ctx.body = "Task Already Exists";
-        ctx.status = 400;
-      }
-    }
+    ctx.body = records;
   })
   .put("/keywords/:id", async (ctx) => {
     const repository = createToReadKeywordsRepository(ctx.db);
 
-    try {
-      const records = await toreadKeywordsController.update(
-        repository,
-        ctx.request.body,
-        ctx.params.id
-      );
+    const records = await toreadKeywordsController.update(
+      repository,
+      ctx.request.body,
+      ctx.params.id
+    );
 
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-    }
+    ctx.body = records;
   })
   .delete("/keywords/:id", async (ctx) => {
     const repository = createToReadKeywordsRepository(ctx.db);
 
-    try {
-      const records = await toreadKeywordsController.delete(
-        repository,
-        ctx.params.id
-      );
+    const records = await toreadKeywordsController.delete(
+      repository,
+      ctx.params.id
+    );
 
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-    }
+    ctx.body = records;
   });
 
 router
   .get("/", async (ctx) => {
     const { page, per_page, order_by, tags } = ctx.query;
-    const repository = createToReadRepository(ctx.db);
+    const repository = createToReadRepository(ctx.database);
 
     const records = await toreadController.index(repository, {
       page,
@@ -98,7 +75,7 @@ router
     ctx.body = records;
   })
   .get("/:id", async (ctx) => {
-    const repository = createToReadRepository(ctx.db);
+    const repository = createToReadRepository(ctx.database);
 
     const record = await toreadController.show(repository, ctx.params.id);
 
@@ -112,52 +89,29 @@ router
     ctx.body = record;
   })
   .post("/", async (ctx) => {
-    const repository = createToReadRepository(ctx.db);
+    const repository = createToReadRepository(ctx.database);
 
-    try {
-      const records = await toreadController.store(
-        repository,
-        ctx.request.body
-      );
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-
-      if ((e as { code: string }).code === "SQLITE_CONSTRAINT_UNIQUE") {
-        ctx.body = "Task Already Exists";
-        ctx.status = 400;
-      }
-    }
+    const records = await toreadController.store(
+      repository,
+      ctx.request.body
+    );
+    ctx.body = records;
   })
   .put("/:id", async (ctx) => {
-    const repository = createToReadRepository(ctx.db);
+    const repository = createToReadRepository(ctx.database);
 
-    try {
-      const records = await toreadController.update(
-        repository,
-        ctx.request.body,
-        ctx.params.id
-      );
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-    }
+    const records = await toreadController.update(
+      repository,
+      ctx.request.body,
+      ctx.params.id
+    );
+    ctx.body = records;
   })
   .delete("/:id", async (ctx) => {
-    const repository = createToReadRepository(ctx.db);
+    const repository = createToReadRepository(ctx.database);
 
-    try {
-      const records = await toreadController.delete(repository, ctx.params.id);
-      ctx.body = records;
-    } catch (e: unknown) {
-      console.error(e);
-      ctx.body = "Internal Server Error";
-      ctx.status = 500;
-    }
+    const records = await toreadController.delete(repository, ctx.params.id);
+    ctx.body = records;
   });
 
 export default router;

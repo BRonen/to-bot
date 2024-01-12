@@ -4,7 +4,7 @@ import fs from "fs";
 
 import { AppContext } from "../types";
 
-const router = new Router({ prefix: "/api" });
+const router = new Router<DefaultState, AppContext>({ prefix: "/api" });
 
 const routesFiles = fs.readdirSync(__dirname);
 
@@ -18,9 +18,9 @@ routesFiles.forEach(async (routesFile) => {
   console.log(`Loading routes: "${routesFile}".`);
 
   try {
-    const { default: routesRouter } = (await import(
+    const { default: routesRouter }: DynamicRoute = await import(
       `./${routesFile}`
-    )) satisfies DynamicRoute;
+    );
 
     router.use(routesRouter.routes()).use(routesRouter.allowedMethods());
   } catch (e) {
