@@ -25,7 +25,7 @@ export type CreateToReadDto = {
   discord_id: string;
   url: string;
   tags: number[];
-  name?: string;
+  name: string;
 };
 
 export type UpdateToReadDto = {
@@ -70,8 +70,7 @@ const createRepository = (db: Database): ToReadRepository => ({
   },
 
   findAll: async (params) => {
-    // TODO: remove duplicated code
-    const query = params.tags
+    /* const query = params.tags
       ? `
       select tr.id, tr.discord_id, tr.url, tr.name, tr.name, tr.readed, k.tag, tr.created_at, tr.updated_at
       from to_read as tr
@@ -97,26 +96,64 @@ const createRepository = (db: Database): ToReadRepository => ({
       order by :order_by
       limit :limit
       offset :offset
-    `;
+    `; */
+    // TODO: implement query params like offset, limit and order
 
-    const results = await db.raw<ToReadRawResult[]>(query, params);
+    const results = await db.select()
+    .from(toReadsToKeywordsSchema)
+    .leftJoin(toReadSchema, eq(toReadsToKeywordsSchema.toReadId, toReadSchema.id))
+    .leftJoin(toReadKeywordSchema, eq(toReadsToKeywordsSchema.toReadKeywordId, toReadKeywordSchema.id))
+    .limit(10);
 
-    return parseToReadsTags(results);
+    const indexedResults = results.reduce((acc, result) => {
+      if(!result.to_read || !result.to_read_keyword) return {};
+
+      const currentId = result.to_read.id
+      const currentResult = acc[currentId];
+      const currentTag = result.to_read_keyword;
+
+      if(currentResult)
+        return {
+          ...acc,
+          [currentId]: {
+            ...currentResult,
+            tags: [...(currentResult.tags || []), currentTag.tag],
+          }
+        };
+
+      return {
+        ...acc,
+        [currentId]: result.to_read
+      };
+    }, {} as Record<string, ToReadDto>);
+
+    return Object.values(indexedResults);
   },
 
   create: async ({ tags, ...createToReadDto }) =>
     await db.transaction(async (trx) => {
-      const [result] = await trx("to_read").insert(createToReadDto, "id");
+      const [result] = await trx.insert(toReadSchema).values({
+        name: createToReadDto.name,
+        discordId: createToReadDto.discord_id,
+        url: createToReadDto.url,
+      }).returning();
 
       if (tags.length)
-        await trx("to_read_keywords").insert(
-          tags.map((tag) => ({ to_read_id: result.id, keyword_id: tag }))
+        await trx.insert(toReadsToKeywordsSchema).values(
+          tags.map((tag) => ({ toReadId: result.id, toReadKeywordId: tag }))
         );
 
-      return result;
+      return {
+        id: result.id,
+        discord_id: result.discordId,
+        url: result.url,
+        name: result.name,
+        readed: result.readed,
+        updated_at: result.updatedAt.getTime(),
+        created_at: result.createdAt.getTime(),
+      };
     }),
 
-  // TODO: add returning to see the result of update and delete
   // TODO: add a update function that updates tags relations too
   update: async (updateToReadDto, id) => {
     const [result] = await db.update(toReadSchema)
