@@ -11,6 +11,8 @@ services:
       - DATABASE_URI=postgres://postgres:password@database:5432/to_bot
     ports:
       - "4000:4000"
+    depends_on:
+      - database
     networks:
       - default-network
 
