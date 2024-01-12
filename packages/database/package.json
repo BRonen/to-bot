@@ -11,9 +11,7 @@
   },
   "dependencies": {
     "@to-bot/env": "workspace:^",
-    "better-sqlite3": "^8.4.0",
     "drizzle-orm": "^0.29.3",
-    "knex": "^2.5.0",
     "postgres": "^3.4.3"
   },
   "devDependencies": {
