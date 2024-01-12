@@ -6,10 +6,11 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts\" --quiet --cache",
-    "db:migrate": "knex migrate:latest",
-    "db:rollback": "knex migrate:rollback"
+    "db:migrate": "ts-node scripts/migrate.ts",
+    "db:migrate:generate": "drizzle-kit generate:pg --out=migrations/ --schema=./schemas.ts"
   },
   "dependencies": {
+    "@to-bot/env": "workspace:^",
     "better-sqlite3": "^8.4.0",
     "drizzle-orm": "^0.29.3",
     "knex": "^2.5.0",
