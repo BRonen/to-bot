@@ -1,7 +1,11 @@
 import { eq } from "drizzle-orm";
 
 import type { Database } from "../";
-import { toReadKeywordSchema, toReadSchema, toReadsToKeywordsSchema } from "../schemas";
+import {
+  toReadKeywordSchema,
+  toReadSchema,
+  toReadsToKeywordsSchema,
+} from "../schemas";
 
 export type ToReadSearchFilters = {
   limit: number;
@@ -48,18 +52,19 @@ export type ToReadRepository = {
 
 const createRepository = (db: Database): ToReadRepository => ({
   find: async (toReadId) => {
-    const [result] = await db.select({
-      id: toReadSchema.id,
-      name: toReadSchema.name,
-      url: toReadSchema.url,
-      discord_id: toReadSchema.discordId,
-      readed: toReadSchema.readed,
-      created_at: toReadSchema.createdAt,
-      updated_at: toReadSchema.updatedAt,
-    })
-    .from(toReadSchema)
-    .where(eq(toReadSchema.id, Number(toReadId)))
-    .limit(1);
+    const [result] = await db
+      .select({
+        id: toReadSchema.id,
+        name: toReadSchema.name,
+        url: toReadSchema.url,
+        discord_id: toReadSchema.discordId,
+        readed: toReadSchema.readed,
+        created_at: toReadSchema.createdAt,
+        updated_at: toReadSchema.updatedAt,
+      })
+      .from(toReadSchema)
+      .where(eq(toReadSchema.id, Number(toReadId)))
+      .limit(1);
 
     return {
       ...result,
@@ -99,31 +104,38 @@ const createRepository = (db: Database): ToReadRepository => ({
     `; */
     // TODO: implement query params like offset, limit and order
 
-    const results = await db.select()
-    .from(toReadsToKeywordsSchema)
-    .leftJoin(toReadSchema, eq(toReadsToKeywordsSchema.toReadId, toReadSchema.id))
-    .leftJoin(toReadKeywordSchema, eq(toReadsToKeywordsSchema.toReadKeywordId, toReadKeywordSchema.id))
-    .limit(10);
+    const results = await db
+      .select()
+      .from(toReadsToKeywordsSchema)
+      .leftJoin(
+        toReadSchema,
+        eq(toReadsToKeywordsSchema.toReadId, toReadSchema.id)
+      )
+      .leftJoin(
+        toReadKeywordSchema,
+        eq(toReadsToKeywordsSchema.toReadKeywordId, toReadKeywordSchema.id)
+      )
+      .limit(10);
 
     const indexedResults = results.reduce((acc, result) => {
-      if(!result.to_read || !result.to_read_keyword) return {};
+      if (!result.to_read || !result.to_read_keyword) return {};
 
-      const currentId = result.to_read.id
+      const currentId = result.to_read.id;
       const currentResult = acc[currentId];
       const currentTag = result.to_read_keyword;
 
-      if(currentResult)
+      if (currentResult)
         return {
           ...acc,
           [currentId]: {
             ...currentResult,
             tags: [...(currentResult.tags || []), currentTag.tag],
-          }
+          },
         };
 
       return {
         ...acc,
-        [currentId]: result.to_read
+        [currentId]: result.to_read,
       };
     }, {} as Record<string, ToReadDto>);
 
@@ -132,16 +144,21 @@ const createRepository = (db: Database): ToReadRepository => ({
 
   create: async ({ tags, ...createToReadDto }) =>
     await db.transaction(async (trx) => {
-      const [result] = await trx.insert(toReadSchema).values({
-        name: createToReadDto.name,
-        discordId: createToReadDto.discord_id,
-        url: createToReadDto.url,
-      }).returning();
+      const [result] = await trx
+        .insert(toReadSchema)
+        .values({
+          name: createToReadDto.name,
+          discordId: createToReadDto.discord_id,
+          url: createToReadDto.url,
+        })
+        .returning();
 
       if (tags.length)
-        await trx.insert(toReadsToKeywordsSchema).values(
-          tags.map((tag) => ({ toReadId: result.id, toReadKeywordId: tag }))
-        );
+        await trx
+          .insert(toReadsToKeywordsSchema)
+          .values(
+            tags.map((tag) => ({ toReadId: result.id, toReadKeywordId: tag }))
+          );
 
       return {
         id: result.id,
@@ -156,14 +173,15 @@ const createRepository = (db: Database): ToReadRepository => ({
 
   // TODO: add a update function that updates tags relations too
   update: async (updateToReadDto, id) => {
-    const [result] = await db.update(toReadSchema)
-    .set({
-      ...updateToReadDto,
-      readed: updateToReadDto.readed,
-      updatedAt: new Date(),
-    })
-    .where(eq(toReadSchema.id, Number(id)))
-    .returning();
+    const [result] = await db
+      .update(toReadSchema)
+      .set({
+        ...updateToReadDto,
+        readed: updateToReadDto.readed,
+        updatedAt: new Date(),
+      })
+      .where(eq(toReadSchema.id, Number(id)))
+      .returning();
 
     return {
       ...result,
@@ -175,9 +193,10 @@ const createRepository = (db: Database): ToReadRepository => ({
   },
 
   delete: async (id) => {
-    const [result] = await db.delete(toReadSchema)
-    .where(eq(toReadSchema.id, Number(id)))
-    .returning();
+    const [result] = await db
+      .delete(toReadSchema)
+      .where(eq(toReadSchema.id, Number(id)))
+      .returning();
 
     return {
       ...result,
@@ -190,46 +209,54 @@ const createRepository = (db: Database): ToReadRepository => ({
 
   addKeywordsByIds: async (keywords, id) => {
     const [[result], tags] = await Promise.all([
-      db.insert(toReadsToKeywordsSchema)
-      .values(
-        keywords.map(keyword => ({ toReadId: id, toReadKeywordId: keyword }))
-      )
-      .returning({
-        id: toReadSchema.id,
-        name: toReadSchema.name,
-        url: toReadSchema.url,
-        discord_id: toReadSchema.discordId,
-        readed: toReadSchema.readed,
-        created_at: toReadSchema.createdAt,
-        updated_at: toReadSchema.updatedAt,
-      }),
-      db.select({
-        tag: toReadKeywordSchema.tag,
-      }).from(toReadsToKeywordsSchema)
-      .where(eq(toReadsToKeywordsSchema.toReadId, id))
-      .leftJoin(toReadKeywordSchema, eq(
-        toReadKeywordSchema.id,
-        toReadsToKeywordsSchema.toReadKeywordId,
-      )),
+      db
+        .insert(toReadsToKeywordsSchema)
+        .values(
+          keywords.map((keyword) => ({
+            toReadId: id,
+            toReadKeywordId: keyword,
+          }))
+        )
+        .returning({
+          id: toReadSchema.id,
+          name: toReadSchema.name,
+          url: toReadSchema.url,
+          discord_id: toReadSchema.discordId,
+          readed: toReadSchema.readed,
+          created_at: toReadSchema.createdAt,
+          updated_at: toReadSchema.updatedAt,
+        }),
+      db
+        .select({
+          tag: toReadKeywordSchema.tag,
+        })
+        .from(toReadsToKeywordsSchema)
+        .where(eq(toReadsToKeywordsSchema.toReadId, id))
+        .leftJoin(
+          toReadKeywordSchema,
+          eq(toReadKeywordSchema.id, toReadsToKeywordsSchema.toReadKeywordId)
+        ),
     ]);
 
     return {
       ...result,
       created_at: result.created_at.getTime(),
       updated_at: result.updated_at.getTime(),
-      tags: tags.map(({tag}) => tag as string)
+      tags: tags.map(({ tag }) => tag as string),
     };
   },
 
   clearKeywordsById: async (id) => {
-    await db.delete(toReadsToKeywordsSchema)
-      .where(eq(toReadsToKeywordsSchema.toReadId, id))
+    await db
+      .delete(toReadsToKeywordsSchema)
+      .where(eq(toReadsToKeywordsSchema.toReadId, id));
   },
 
   deleteByDiscordId: async (discordId) => {
-    const [result] = await db.delete(toReadSchema)
-    .where(eq(toReadSchema.discordId, discordId))
-    .returning();
+    const [result] = await db
+      .delete(toReadSchema)
+      .where(eq(toReadSchema.discordId, discordId))
+      .returning();
 
     return {
       ...result,
@@ -240,10 +267,11 @@ const createRepository = (db: Database): ToReadRepository => ({
     };
   },
   setAsReadedByDiscordId: async (discordId) => {
-    const [result] = await db.update(toReadSchema)
-    .set({ readed: true })
-    .where(eq(toReadSchema.discordId, discordId))
-    .returning();
+    const [result] = await db
+      .update(toReadSchema)
+      .set({ readed: true })
+      .where(eq(toReadSchema.discordId, discordId))
+      .returning();
 
     return {
       ...result,

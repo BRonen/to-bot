@@ -14,7 +14,7 @@ export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
     DATABASE_CONFIG: process.env.DATABASE_CONFIG as unknown as
       | "development"
       | "production",
-    DATABASE_URI: process.env.DATABASE_URI as unknown as string
+    DATABASE_URI: process.env.DATABASE_URI as unknown as string,
   };
 
   return environment;
@@ -24,10 +24,11 @@ export type DatabaseEnvironment = {
   DATABASE_URI: string;
 };
 
-export const loadDatabaseEnvironment = async (): Promise<DatabaseEnvironment> => {
-  const environment = {
-    DATABASE_URI: process.env.DATABASE_URI as unknown as string
-  }
+export const loadDatabaseEnvironment =
+  async (): Promise<DatabaseEnvironment> => {
+    const environment = {
+      DATABASE_URI: process.env.DATABASE_URI as unknown as string,
+    };
 
-  return environment;
-};
+    return environment;
+  };

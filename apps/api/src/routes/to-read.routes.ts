@@ -91,10 +91,7 @@ router
   .post("/", async (ctx) => {
     const repository = createToReadRepository(ctx.database);
 
-    const records = await toreadController.store(
-      repository,
-      ctx.request.body
-    );
+    const records = await toreadController.store(repository, ctx.request.body);
     ctx.body = records;
   })
   .put("/:id", async (ctx) => {
