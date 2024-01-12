@@ -1,5 +1,3 @@
-import knex from "knex";
-
 import routes from "./routes";
 import { loadApiEnvironment } from "@to-bot/env";
 import { createApp } from "./app";
