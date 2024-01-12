@@ -2,14 +2,10 @@
   "name": "@to-bot/env",
   "version": "1.0.0",
   "description": "environment loader",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts\" --quiet --cache"
-  },
-  "dependencies": {
-    "@to-bot/database": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
