@@ -9,6 +9,7 @@ import "dotenv/config";
 export type ApiEnvironment = {
   PORT: number;
   DATABASE_CONFIG: "development" | "production";
+  DATABASE_URI: string;
 };
 
 export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
@@ -17,6 +18,7 @@ export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
     DATABASE_CONFIG: process.env.DATABASE_CONFIG as unknown as
       | "development"
       | "production",
+    DATABASE_URI: process.env.DATABASE_URI as unknown as string
   };
 
   return environment;

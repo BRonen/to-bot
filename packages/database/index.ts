@@ -3,7 +3,7 @@ import postgres from 'postgres';
 
 import * as schema from './schemas';
 
-export type Database = PostgresJsDatabase<Record<string, never>>;
+export type Database = PostgresJsDatabase<typeof schema>;
 
 export const createClient = (uri: string) => {
     return postgres(uri, { max: 1 });

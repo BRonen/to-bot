@@ -1,4 +1,5 @@
 import Router from "@koa/router";
+import type { DefaultState } from "koa";
 
 import toreadController from "../controllers/to-read.controller";
 import toreadKeywordsController from "../controllers/to-read-keywords.controller";
@@ -6,7 +7,9 @@ import toreadKeywordsController from "../controllers/to-read-keywords.controller
 import createToReadRepository from "@to-bot/database/repositories/knex/to-read.repository";
 import createToReadKeywordsRepository from "@to-bot/database/repositories/knex/to-read-keywords.repository";
 
-const router = new Router({ prefix: "/to-read" });
+import { AppContext } from "../types";
+
+const router = new Router<DefaultState, AppContext>({ prefix: "/to-read" });
 
 router
   .get("/keywords", async (ctx) => {
