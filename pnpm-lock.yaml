@@ -112,9 +112,6 @@ importers:
       '@koa/router':
         specifier: ^12.0.0
         version: 12.0.0
-      '@types/koa':
-        specifier: ^2.13.6
-        version: 2.13.6
       koa:
         specifier: ^2.14.2
         version: 2.14.2
@@ -131,6 +128,9 @@ importers:
       '@to-bot/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@types/koa':
+        specifier: ^2.13.6
+        version: 2.13.6
       '@types/koa-bodyparser':
         specifier: ^4.3.10
         version: 4.3.10
