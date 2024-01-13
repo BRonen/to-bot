@@ -13,8 +13,11 @@
     "api:dev": "turbo run dev --filter=api",
     "api:build": "turbo run build --filter=api",
     "api:start": "turbo run start --filter=api",
-    "db:migrate": "turbo run db:migrate --filter=core",
-    "db:rollback": "turbo run db:rollback --filter=core"
+    "scheduler:dev": "turbo run dev --filter=scheduler",
+    "scheduler:build": "turbo run build --filter=scheduler",
+    "scheduler:start": "turbo run start --filter=schedulerapi",
+    "db:migrate:generate": "turbo run db:migrate:generate --filter=database",
+    "db:migrate": "turbo run db:migrate --filter=database"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",

@@ -1,0 +1,188 @@
+{
+  "id": "bcfa9ebd-1dab-4707-938f-9f162c58684d",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "to_read_keyword": {
+      "name": "to_read_keyword",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tag": {
+          "name": "tag",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "to_read_keyword_tag_unique": {
+          "name": "to_read_keyword_tag_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "tag"
+          ]
+        }
+      }
+    },
+    "to_read": {
+      "name": "to_read",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "discord_id": {
+          "name": "discord_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "readed": {
+          "name": "readed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "to_read_discord_id_unique": {
+          "name": "to_read_discord_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "discord_id"
+          ]
+        },
+        "to_read_url_unique": {
+          "name": "to_read_url_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "url"
+          ]
+        }
+      }
+    },
+    "to_reads_to_keywords": {
+      "name": "to_reads_to_keywords",
+      "schema": "",
+      "columns": {
+        "to_read_id": {
+          "name": "to_read_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "to_read_keywords_id": {
+          "name": "to_read_keywords_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "to_reads_to_keywords_to_read_id_to_read_id_fk": {
+          "name": "to_reads_to_keywords_to_read_id_to_read_id_fk",
+          "tableFrom": "to_reads_to_keywords",
+          "tableTo": "to_read",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "to_read_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "to_reads_to_keywords_to_read_keywords_id_to_read_keyword_id_fk": {
+          "name": "to_reads_to_keywords_to_read_keywords_id_to_read_keyword_id_fk",
+          "tableFrom": "to_reads_to_keywords",
+          "tableTo": "to_read_keyword",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "to_read_keywords_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "to_reads_to_keywords_to_read_id_to_read_keywords_id_pk": {
+          "name": "to_reads_to_keywords_to_read_id_to_read_keywords_id_pk",
+          "columns": [
+            "to_read_id",
+            "to_read_keywords_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

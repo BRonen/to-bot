@@ -7,7 +7,23 @@ services:
     entrypoint: pnpm run api:dev
     environment:
       - PORT=4000
-      - DATABASE_CONFIG=development
-      # - DATABASE_URI=postgres://postgres:password@auth-database:5432/auth_database
+      - DATABASE_URI=postgres://postgres:password@database:5432/to_bot
     ports:
       - "4000:4000"
+    depends_on:
+      - database
+    networks:
+      - default-network
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: to_bot
+    ports:
+      - 5432:5432
+    networks:
+      - default-network
+
+networks:
+  default-network:

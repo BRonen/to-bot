@@ -2,18 +2,14 @@
   "name": "@to-bot/env",
   "version": "1.0.0",
   "description": "environment loader",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts\" --quiet --cache"
   },
-  "dependencies": {
-    "dotenv": "^16.3.1",
-    "@to-bot/database": "workspace:*"
-  },
   "devDependencies": {
     "@types/node": "^17.0.12",
+    "dotenv": "^16.3.1",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"

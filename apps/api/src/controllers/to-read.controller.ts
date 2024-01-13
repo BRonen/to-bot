@@ -3,7 +3,7 @@ import type {
   ToReadDto,
   ToReadRepository,
   UpdateToReadDto,
-} from "@to-bot/database/repositories/knex/to-read.repository";
+} from "@to-bot/database/repositories/to-read.repository";
 
 type ToReadFilters = {
   page: string | string[] | undefined;
@@ -23,8 +23,8 @@ interface Controller {
     db: ToReadRepository,
     updateToReadDto: UpdateToReadDto,
     id: string
-  ): Promise<number>;
-  delete(db: ToReadRepository, id: string): Promise<void>;
+  ): Promise<ToReadDto>;
+  delete(db: ToReadRepository, id: string): Promise<ToReadDto>;
 }
 const controller: Controller = {
   // TODO: refactor the parsing of query parameters and default values
