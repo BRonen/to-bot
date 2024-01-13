@@ -79,7 +79,7 @@ export const toDoSchema = pgTable("to_do", {
   id: serial("id").primaryKey(),
   name: varchar("tag", { length: 128 }).notNull().unique(),
   archived: boolean("archived").default(false).notNull(),
-  status: integer("status"),
+  status: integer("status").default(1).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
