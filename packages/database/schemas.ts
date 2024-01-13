@@ -9,6 +9,8 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
+/* To-Read Module */
+
 export const toReadSchema = pgTable("to_read", {
   id: serial("id").primaryKey(),
   discordId: varchar("discord_id", { length: 256 }).notNull().unique(),
@@ -63,5 +65,35 @@ export const usersToGroupsRelations = relations(
       fields: [toReadsToKeywordsSchema.toReadId],
       references: [toReadSchema.id],
     }),
+  })
+);
+
+/* To-do Module */
+
+// TODO: add categories to To-do schema
+// TODO: add a parent to-do relation nullable
+// TODO: add a text description (maybe a markdown file)
+// TODO: think about adding initial date and end date instead of just a date
+
+export const toDoSchema = pgTable("to_do", {
+  id: serial("id").primaryKey(),
+  name: varchar("tag", { length: 128 }).notNull().unique(),
+  archived: boolean("archived").default(false).notNull(),
+  status: integer("status"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const recurrentRuleSchema = pgTable(
+  "to_do_rule",
+  {
+    id: integer("id")
+      .notNull()
+      .references(() => toDoSchema.id),
+    cron: varchar("tag", { length: 32 }),
+    runnedAt: timestamp("runned_at"),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.id] }),
   })
 );
