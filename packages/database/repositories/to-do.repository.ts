@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import type { Database } from "../";
+import type { Database, Transaction } from "../";
 import { toDoSchema } from "../schemas";
 
 export type ToDoDto = {
@@ -30,6 +30,7 @@ export type ToReadKeywordsRepository = {
         id: string
     ) => Promise<ToDoDto>;
     delete: (id: string) => Promise<ToDoDto>;
+    transaction: <T>(callback: (trx: Transaction) => Promise<T>) => Promise<T>;
 };
 
 const createRepository = (db: Database): ToReadKeywordsRepository => ({
@@ -110,6 +111,8 @@ const createRepository = (db: Database): ToReadKeywordsRepository => ({
             updated_at: result.updatedAt.getTime(),
         };
     },
+
+    transaction: (callback) => db.transaction(callback),
 });
 
 export default createRepository;
