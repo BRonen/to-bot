@@ -1,34 +1,19 @@
-import Koa, { type DefaultState, type DefaultContext } from "koa";
-import bodyParser from "@koa/bodyparser";
-import Router from "@koa/router";
 import cron from "node-cron";
 
-const routes = new Router();
+import { createConnection } from "@to-bot/database";
+import { loadSchedulerEnvironment } from "@to-bot/env";
+import { createApp } from "./app";
+import routes from "./routes";
+import { clearCronJobs, setupCronJobs } from "./cron";
 
-cron.schedule(
-  "* * * * * *",
-  () => {
-    console.log("auto", new Date().toUTCString());
-  },
-  {
-    name: "wasd",
-  }
-);
+(async () => {
+  const env = await loadSchedulerEnvironment();
+  const database = createConnection(env.DATABASE_URI);
 
-console.log(cron.getTasks().get("wasd"));
-console.log(cron.getTasks().get(cron.getTasks().keys().next().value));
+  await clearCronJobs(cron);
+  await setupCronJobs(cron, database);
 
-routes.get("/", (ctx) => {
-  ctx.body = "healthy";
-});
-
-routes.get("/test", (ctx) => {
-  console.log("manual", new Date().toUTCString());
-  ctx.body = "manual";
-});
-
-new Koa<DefaultState, DefaultContext>()
-  .use(bodyParser())
-  .use(routes.routes())
-  .use(routes.allowedMethods())
-  .listen(4001, () => console.log(`listening at http://0.0.0.0:4001/`));
+  const app = createApp(routes, database, cron, env); 
+  
+  app.listen(env.PORT, () => console.log(`listening at http://0.0.0.0:${env.PORT}/`));
+})();
