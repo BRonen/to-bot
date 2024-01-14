@@ -19,7 +19,7 @@ export type UpdateToDoDto = {
     name: string;
 };
 
-export type ToReadKeywordsRepository = {
+export type ToDoRepository = {
     find: (id: string) => Promise<ToDoDto | undefined>;
     findAll: () => Promise<ToDoDto[]>;
     create: (
@@ -33,7 +33,7 @@ export type ToReadKeywordsRepository = {
     transaction: <T>(callback: (trx: Transaction) => Promise<T>) => Promise<T>;
 };
 
-const createRepository = (db: Database): ToReadKeywordsRepository => ({
+const createRepository = (db: Database): ToDoRepository => ({
     find: async (id) => {
         const [result] = await db
             .select()

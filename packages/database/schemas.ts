@@ -84,16 +84,17 @@ export const toDoSchema = pgTable("to_do", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const recurrentRuleSchema = pgTable(
-  "to_do_rule",
+export const toDoCronRuleSchema = pgTable(
+  "to_do_cron_rule",
   {
     id: integer("id")
       .notNull()
       .references(() => toDoSchema.id),
-    cron: varchar("tag", { length: 32 }),
+    cron: varchar("tag", { length: 32 }).notNull(),
+    disabled: boolean("disabled").default(false).notNull(),
     runnedAt: timestamp("runned_at"),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.id] }),
-  })
+  }),
 );
