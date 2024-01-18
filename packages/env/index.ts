@@ -1,45 +1,70 @@
+import { z } from "zod";
+
 import "dotenv/config";
 
-// TODO: implement a checking to type safe environment loading
+const apiEnvironmentSchema = z.object({
+  PORT: z.number(),
+  DATABASE_URI: z.string(),
+});
 
-export type ApiEnvironment = {
-  PORT: number;
-  DATABASE_URI: string;
-};
-
-export const loadApiEnvironment = async (): Promise<ApiEnvironment> => {
+export const loadApiEnvironment = async (): Promise<
+  z.infer<typeof apiEnvironmentSchema>
+> => {
   const environment = {
-    PORT: process.env.PORT as unknown as number,
-    DATABASE_URI: process.env.DATABASE_URI as unknown as string,
+    PORT: process.env.PORT,
+    DATABASE_URI: process.env.DATABASE_URI,
   };
 
-  return environment;
+  const env = apiEnvironmentSchema.safeParse(environment);
+
+  if (!env.success) {
+    console.log("Error while loading environment");
+    throw env.error;
+  }
+
+  return env.data;
 };
 
-export type SchedulerEnvironment = {
-  PORT: number;
-  DATABASE_URI: string;
-};
+const schedulerEnvironmentSchema = z.object({
+  PORT: z.number(),
+  DATABASE_URI: z.string(),
+});
 
-export const loadSchedulerEnvironment =
-  async (): Promise<SchedulerEnvironment> => {
-    const environment = {
-      DATABASE_URI: process.env.DATABASE_URI as unknown as string,
-      PORT: process.env.PORT as unknown as number,
-    };
-
-    return environment;
+export const loadSchedulerEnvironment = async (): Promise<
+  z.infer<typeof schedulerEnvironmentSchema>
+> => {
+  const environment = {
+    DATABASE_URI: process.env.DATABASE_URI,
+    PORT: process.env.PORT,
   };
 
-export type DatabaseEnvironment = {
-  DATABASE_URI: string;
+  const env = schedulerEnvironmentSchema.safeParse(environment);
+
+  if (!env.success) {
+    console.log("Error while loading environment");
+    throw env.error;
+  }
+
+  return env.data;
 };
 
-export const loadDatabaseEnvironment =
-  async (): Promise<DatabaseEnvironment> => {
-    const environment = {
-      DATABASE_URI: process.env.DATABASE_URI as unknown as string,
-    };
+const databaseEnvironmentSchema = z.object({
+  DATABASE_URI: z.string(),
+});
 
-    return environment;
+export const loadDatabaseEnvironment = async (): Promise<
+  z.infer<typeof databaseEnvironmentSchema>
+> => {
+  const environment = {
+    DATABASE_URI: process.env.DATABASE_URI,
   };
+
+  const env = databaseEnvironmentSchema.safeParse(environment);
+
+  if (!env.success) {
+    console.log("Error while loading environment");
+    throw env.error;
+  }
+
+  return env.data;
+};
