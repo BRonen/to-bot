@@ -6,7 +6,9 @@ import type {
 } from "@to-bot/database/repositories/to-read-keywords.repository";
 
 interface Controller {
-  index: (repository: ToReadKeywordsRepository) => Promise<ToReadKeywordDto[]>;
+  index: (
+    repository: ToReadKeywordsRepository
+  ) => Promise<{ results: ToReadKeywordDto[]; total: number }>;
   show: (
     repository: ToReadKeywordsRepository,
     id: string
