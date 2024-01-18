@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 import type { Database } from "../";
 import {
@@ -16,7 +16,7 @@ export type ToReadSearchFilters = {
 
 export type ToReadDto = {
   id: number;
-  discord_id: string;
+  discord_id: string | null;
   url: string;
   name?: string;
   readed: boolean;
@@ -26,7 +26,7 @@ export type ToReadDto = {
 };
 
 export type CreateToReadDto = {
-  discord_id: string;
+  discord_id: string | null;
   url: string;
   tags: number[];
   name: string;
@@ -40,7 +40,9 @@ export type UpdateToReadDto = {
 
 export type ToReadRepository = {
   find: (id: string) => Promise<ToReadDto | undefined>;
-  findAll: (filters: ToReadSearchFilters) => Promise<ToReadDto[]>;
+  findAll: (
+    filters: ToReadSearchFilters
+  ) => Promise<{ results: ToReadDto[]; total: number }>;
   create: (createToReadDto: CreateToReadDto) => Promise<ToReadDto>;
   update: (updateToReadDto: UpdateToReadDto, id: string) => Promise<ToReadDto>;
   delete: (id: string) => Promise<ToReadDto>;
@@ -105,10 +107,15 @@ const createRepository = (db: Database): ToReadRepository => ({
     // TODO: implement query params like offset, limit and order
 
     const results = await db
-      .select()
-      .from(toReadsToKeywordsSchema)
+      .select({
+        to_reads_to_keywords: toReadsToKeywordsSchema,
+        to_read: toReadSchema,
+        to_read_keyword: toReadKeywordSchema,
+        total: sql<number>`count(*) over ()`,
+      })
+      .from(toReadSchema)
       .leftJoin(
-        toReadSchema,
+        toReadsToKeywordsSchema,
         eq(toReadsToKeywordsSchema.toReadId, toReadSchema.id)
       )
       .leftJoin(
@@ -117,8 +124,12 @@ const createRepository = (db: Database): ToReadRepository => ({
       )
       .limit(10);
 
+    console.log(results);
+
     const indexedResults = results.reduce((acc, result) => {
-      if (!result.to_read || !result.to_read_keyword) return {};
+      console.log(result);
+
+      if (!result.to_read) return {};
 
       const currentId = result.to_read.id;
       const currentResult = acc[currentId];
@@ -129,17 +140,30 @@ const createRepository = (db: Database): ToReadRepository => ({
           ...acc,
           [currentId]: {
             ...currentResult,
-            tags: [...(currentResult.tags || []), currentTag.tag],
+            tags: [...(currentResult.tags || []), currentTag?.tag],
           },
         };
 
       return {
         ...acc,
-        [currentId]: result.to_read,
+        [currentId]: {
+          id: result.to_read.id,
+          discord_id: result.to_read.discordId,
+          url: result.to_read.url,
+          name: result.to_read.name,
+          readed: result.to_read.readed,
+          created_at: result.to_read.createdAt,
+          updated_at: result.to_read.updatedAt,
+        },
       };
     }, {} as Record<string, ToReadDto>);
 
-    return Object.values(indexedResults);
+    console.log(indexedResults);
+
+    return {
+      results: Object.values(indexedResults),
+      total: results[0]?.total || 0,
+    };
   },
 
   create: async ({ tags, ...createToReadDto }) =>
