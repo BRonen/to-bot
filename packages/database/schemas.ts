@@ -13,7 +13,7 @@ import { relations } from "drizzle-orm";
 
 export const toReadSchema = pgTable("to_read", {
   id: serial("id").primaryKey(),
-  discordId: varchar("discord_id", { length: 256 }).notNull().unique(),
+  discordId: varchar("discord_id", { length: 256 }).unique(),
   url: varchar("url", { length: 256 }).notNull().unique(),
   name: varchar("name", { length: 256 }).notNull(),
   readed: boolean("readed").notNull().default(false),
@@ -96,5 +96,5 @@ export const toDoCronRuleSchema = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.id] }),
-  }),
+  })
 );
