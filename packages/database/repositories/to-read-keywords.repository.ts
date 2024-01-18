@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import type { Database } from "../";
 import { toReadKeywordSchema } from "../schemas";
 
@@ -19,7 +19,7 @@ export type UpdateToReadKeywordDto = {
 
 export type ToReadKeywordsRepository = {
   find: (id: string) => Promise<ToReadKeywordDto | undefined>;
-  findAll: () => Promise<ToReadKeywordDto[]>;
+  findAll: () => Promise<{ results: ToReadKeywordDto[]; total: number }>;
   create: (
     createToReadKeywordDto: CreateToReadKeywordDto
   ) => Promise<ToReadKeywordDto>;
@@ -46,14 +46,22 @@ const createRepository = (db: Database): ToReadKeywordsRepository => ({
   },
 
   findAll: async () => {
-    const results = await db.select().from(toReadKeywordSchema);
+    const results = await db
+      .select({
+        to_read_keyword: toReadKeywordSchema,
+        total: sql<number>`count(*) over ()`,
+      })
+      .from(toReadKeywordSchema);
 
-    return results.map((result) => ({
-      id: result.id,
-      tag: result.tag,
-      created_at: result.createdAt.getTime(),
-      updated_at: result.updatedAt.getTime(),
-    }));
+    return {
+      results: results.map((result) => ({
+        id: result.to_read_keyword.id,
+        tag: result.to_read_keyword.tag,
+        created_at: result.to_read_keyword.createdAt.getTime(),
+        updated_at: result.to_read_keyword.updatedAt.getTime(),
+      })),
+      total: results[0]?.total || 0,
+    };
   },
 
   create: async (createToReadKeywordDto) => {
