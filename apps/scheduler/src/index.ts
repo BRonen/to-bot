@@ -13,7 +13,9 @@ import { clearCronJobs, setupCronJobs } from "./cron";
   await clearCronJobs(cron);
   await setupCronJobs(cron, database);
 
-  const app = createApp(routes, database, cron, env); 
-  
-  app.listen(env.PORT, () => console.log(`listening at http://0.0.0.0:${env.PORT}/`));
+  const app = createApp(routes, database, cron, env);
+
+  app.listen(env.PORT, () =>
+    console.log(`listening at http://0.0.0.0:${env.PORT}/`)
+  );
 })();
