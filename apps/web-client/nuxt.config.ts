@@ -2,6 +2,7 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  build: { transpile: ["vuetify"] },
   modules: [
     "@hebilicious/vue-query-nuxt",
     "dayjs-nuxt",

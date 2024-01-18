@@ -11,10 +11,17 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxtjs/eslint-config-typescript": "^12.0.0",
-    "@types/node": "^18.16.19",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@to-bot/database": "workspace:*",
-    "nuxt": "^3.6.3",
-    "typescript": "^4.5.3"
+    "@types/node": "^18.19.7",
+    "nuxt": "^3.9.2",
+    "typescript": "^4.9.5",
+    "vite-plugin-vuetify": "^2.0.1",
+    "vuetify": "^3.4.10"
+  },
+  "dependencies": {
+    "@hebilicious/vue-query-nuxt": "^0.3.0",
+    "@mdi/font": "^7.4.47",
+    "@tanstack/vue-query": "^5.17.15"
   }
 }
