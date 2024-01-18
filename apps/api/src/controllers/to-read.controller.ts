@@ -13,7 +13,10 @@ type ToReadFilters = {
 };
 
 interface Controller {
-  index(db: ToReadRepository, filters: ToReadFilters): Promise<ToReadDto[]>;
+  index(
+    db: ToReadRepository,
+    filters: ToReadFilters
+  ): Promise<{ results: ToReadDto[]; total: number }>;
   show(db: ToReadRepository, id: string): Promise<ToReadDto | undefined>;
   store(
     db: ToReadRepository,
@@ -41,8 +44,8 @@ const controller: Controller = {
   store: async (repository, { discord_id, url, name, tags }) =>
     repository.create({ discord_id, url, name, tags }),
 
-  update: async (repository, { url, name }, id) =>
-    repository.update({ url, name }, id),
+  update: async (repository, { url, name, readed }, id) =>
+    repository.update({ url, name, readed }, id),
 
   delete: async (repository, id) => repository.delete(id),
 };
