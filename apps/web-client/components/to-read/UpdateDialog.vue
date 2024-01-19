@@ -11,7 +11,7 @@ const editedItem = ref<CreateToReadDto>({
   discord_id: toRead.name,
   name: toRead.name,
   url: toRead.url,
-  tags: [],
+  tags: []
 })
 
 // TODO: fix dialog state reset on close without confirm
@@ -38,7 +38,7 @@ const update = () => {
   updateToRead({
     id: toRead.id,
     readed: toRead.readed,
-    ...editedItem.value,
+    ...editedItem.value
   })
 }
 
@@ -57,9 +57,9 @@ watch([isSuccess], () => {
 <template>
   <v-dialog v-model="dialog" max-width="500px">
     <template #activator="{ props }">
-        <v-icon size="large" v-bind="props">
-            mdi-pencil
-        </v-icon>
+      <v-icon size="large" v-bind="props">
+        mdi-pencil
+      </v-icon>
     </template>
     <v-card>
       <v-card-title>

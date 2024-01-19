@@ -3,7 +3,7 @@ const dayjs = useDayjs()
 
 const { data: toReadKeywordsData, isLoading: loadingToReadKeywords } = useToReadKeywordsPaginatedQuery()
 
-type Header = { title: string, key: string, sortable: boolean, align?: 'end' | 'center' } 
+type Header = { title: string, key: string, sortable: boolean, align?: 'end' | 'center' }
 const headers: Header[] = [
   {
     title: 'Id',
@@ -13,7 +13,7 @@ const headers: Header[] = [
   {
     title: 'Tag',
     key: 'tag',
-    sortable: false,
+    sortable: false
   },
   {
     title: 'Created at',
@@ -31,7 +31,7 @@ const headers: Header[] = [
     title: 'Actions',
     key: 'actions',
     sortable: false,
-    align: 'end',
+    align: 'end'
   }
 ]
 
@@ -67,7 +67,7 @@ const defaultItem = ref(undefined)
       {{ dayjs(item.updated_at).format('YYYY/MM/DD HH:mm:ss') }}
     </template>
     <template #item.actions="{ item }">
-      <to-read-keyword-delete-dialog :id="item.id"></to-read-keyword-delete-dialog>
+      <to-read-keyword-delete-dialog :id="item.id" />
     </template>
   </v-data-table>
 </template>

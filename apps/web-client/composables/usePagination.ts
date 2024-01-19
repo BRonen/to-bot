@@ -4,6 +4,6 @@ export const usePagination = () =>
   reactive({
     page: 1,
     pageSize: 10,
-    orderBy: "id",
-    query: "",
-  });
+    orderBy: 'id',
+    query: ''
+  })

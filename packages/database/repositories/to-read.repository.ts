@@ -124,10 +124,10 @@ const createRepository = (db: Database): ToReadRepository => ({
       )
       .limit(10);
 
-    console.log(results);
+    console.table(results);
 
     const indexedResults = results.reduce((acc, result) => {
-      console.log(result);
+      console.table(result);
 
       if (!result.to_read) return {};
 
@@ -152,13 +152,14 @@ const createRepository = (db: Database): ToReadRepository => ({
           url: result.to_read.url,
           name: result.to_read.name,
           readed: result.to_read.readed,
+          tags: [ currentTag?.tag ],
           created_at: result.to_read.createdAt,
           updated_at: result.to_read.updatedAt,
         },
       };
     }, {} as Record<string, ToReadDto>);
 
-    console.log(indexedResults);
+    console.table(indexedResults);
 
     return {
       results: Object.values(indexedResults),

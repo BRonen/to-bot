@@ -6,7 +6,7 @@ const { isError, error, isSuccess, mutate: deleteToRead } = useDeleteToReadMutat
 const dialog = ref<boolean>(false)
 const errorSnackbar = ref(false)
 
-const cancel = () => dialog.value = false
+const cancel = () => { dialog.value = false }
 
 const confirm = () => deleteToRead(id)
 
@@ -25,9 +25,9 @@ watch([isSuccess], () => {
 <template>
   <v-dialog v-model="dialog" max-width="500px">
     <template #activator="{ props }">
-        <v-icon size="large" class="mr-2" v-bind="props">
-            mdi-delete
-        </v-icon>
+      <v-icon size="large" class="mr-2" v-bind="props">
+        mdi-delete
+      </v-icon>
     </template>
     <v-card>
       <v-card-title>
@@ -36,12 +36,12 @@ watch([isSuccess], () => {
 
       <v-card-text>
         <v-container>
-            Deleting To-Read #{{ id }}
+          Deleting To-Read #{{ id }}
         </v-container>
       </v-card-text>
 
       <v-card-actions>
-        <v-spacer/>
+        <v-spacer />
         <v-btn color="blue-darken-1" variant="text" @click="cancel">
           Cancel
         </v-btn>

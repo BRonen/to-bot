@@ -10,7 +10,7 @@ import type { AppContext, Database } from "./types";
 export const createApp = (
   routes: Router<DefaultState, AppContext>,
   database: Database,
-  _environment: ReturnType<typeof loadApiEnvironment>
+  _environment: Awaited<ReturnType<typeof loadApiEnvironment>>
 ) => {
   const app = new Koa<DefaultState, AppContext>();
 

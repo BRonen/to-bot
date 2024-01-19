@@ -3,7 +3,7 @@ import { z } from "zod";
 import "dotenv/config";
 
 const apiEnvironmentSchema = z.object({
-  PORT: z.number(),
+  PORT: z.coerce.number(),
   DATABASE_URI: z.string(),
 });
 
@@ -26,7 +26,7 @@ export const loadApiEnvironment = async (): Promise<
 };
 
 const schedulerEnvironmentSchema = z.object({
-  PORT: z.number(),
+  PORT: z.coerce.number(),
   DATABASE_URI: z.string(),
 });
 

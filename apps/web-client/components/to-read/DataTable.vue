@@ -9,7 +9,7 @@ const errorSnackbar = ref(false)
 // TODO: add dialog before update to read as readed
 // TODO: implement edit dialog on to read
 
-type Header = { title: string, key: string, sortable: boolean, align?: 'end' | 'center' } 
+type Header = { title: string, key: string, sortable: boolean, align?: 'end' | 'center' }
 const headers: Header[] = [
   {
     title: 'Id',
@@ -59,7 +59,7 @@ const headers: Header[] = [
     title: 'Actions',
     key: 'actions',
     sortable: false,
-    align: 'end',
+    align: 'end'
   }
 ]
 
@@ -128,8 +128,8 @@ watch([isError], () => {
       {{ dayjs(item.updated_at).format('YYYY/MM/DD HH:mm:ss') }}
     </template>
     <template #item.actions="a">
-      <to-read-update-dialog :to-read="a.item"></to-read-update-dialog>
-      <to-read-delete-dialog :id="a.item.id"></to-read-delete-dialog>
+      <to-read-update-dialog :to-read="a.item" />
+      <to-read-delete-dialog :id="a.item.id" />
     </template>
   </v-data-table>
 
