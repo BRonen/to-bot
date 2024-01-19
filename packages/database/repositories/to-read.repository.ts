@@ -152,7 +152,7 @@ const createRepository = (db: Database): ToReadRepository => ({
           url: result.to_read.url,
           name: result.to_read.name,
           readed: result.to_read.readed,
-          tags: [ currentTag?.tag ],
+          tags: [currentTag?.tag],
           created_at: result.to_read.createdAt,
           updated_at: result.to_read.updatedAt,
         },
