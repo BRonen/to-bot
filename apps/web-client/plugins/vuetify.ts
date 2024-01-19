@@ -6,6 +6,10 @@ import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
 
 export default defineNuxtPlugin((app) => {
-  const vuetify = createVuetify({ components, directives });
+  const vuetify = createVuetify({
+    theme: { defaultTheme: "dark" },
+    components,
+    directives,
+  });
   app.vueApp.use(vuetify);
 });
